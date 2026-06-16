@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+          radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 35%),
+          radial-gradient(circle at top right, rgba(37, 99, 235, 0.25), transparent 35%),
+          linear-gradient(135deg, #eef2ff, #f8fafc);
+  font-family: Inter, system-ui, Arial, sans-serif;
+  color: #111827;
+}
