@@ -12,12 +12,30 @@ const ShowStudents = () =>{
                 const response = await fetch("http://localhost:8080/api/students")
                 const data = await response.json()
                 setStudents(data)
+                console.log("STUDENTS:", data)
             }catch(error){
                 console.error("Fetching error:",error.message)
             }
         }
         void FetchStudents()
     }, []);
+
+    const handleDelete = async (studentId) =>{
+        try{
+            const response = await fetch(`http://localhost:8080/api/studentDel/${studentId}`,{
+                method: "DELETE"
+            })
+
+            console.log(`Student with ID ${studentId} deleted successfully`)
+
+            if (response.ok){
+                setStudents((prevStudents) => prevStudents.filter((student) => student.idStudent !== studentId))
+            }
+
+        } catch(error){
+            console.error("Error deleting student: ", error.message)
+        }
+    }
 
 
     return (
@@ -41,10 +59,10 @@ const ShowStudents = () =>{
                                         <td>{student.username}</td>
                                         <td>{student.name}</td>
                                         <td>{student.surname}</td>
-                                        <td>{student.city_name}</td>
+                                        <td>{student.city_name ?? "Nije izabran grad"}</td>
                                         <td>
                                             <Button variant="outline-secondary"> Update </Button>{" "}
-                                            <Button variant="outline-danger"> Delete </Button>
+                                            <Button variant="outline-danger" onClick={() => handleDelete(student.idStudent)}> Delete </Button>
                                         </td>
                                     </tr>
                                 ))}

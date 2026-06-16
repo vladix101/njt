@@ -18,7 +18,10 @@ public class StudentService {
     private final CityRepository cityRepository;
 
     public StudentDto postStudent(StudentDto studentDto){
-        City city = cityRepository.getReferenceById(studentDto.getCity_id());
+        City city = null;
+        if (studentDto.getCity_id() != null){
+            city = cityRepository.getReferenceById(studentDto.getCity_id());
+        }
         Student student = new Student(studentDto.getIdStudent(),studentDto.getUsername(), studentDto.getPassword(),
                 studentDto.getName(),studentDto.getSurname(),city);
         Student s = studentRepository.save(student);
@@ -29,7 +32,13 @@ public class StudentService {
         List<StudentDto> studentsDto = new ArrayList<>();
         List<Student> students = studentRepository.findAll();
         for (Student s : students){
-            studentsDto.add(new StudentDto(s.getId(),s.getSurname(),s.getName(),s.getUsername(),s.getPassword(),s.getCity().getId(),s.getCity().getName()));
+            Long city_id = null;
+            String cityName = null;
+            if (s.getCity() != null) {
+                city_id = s.getCity().getId();
+                cityName = s.getCity().getName();
+            }
+            studentsDto.add(new StudentDto(s.getId(),s.getSurname(),s.getName(),s.getUsername(),s.getPassword(),city_id,cityName));
         }
         return studentsDto;
     }

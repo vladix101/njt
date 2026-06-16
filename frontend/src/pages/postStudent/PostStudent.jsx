@@ -29,7 +29,7 @@ const PostSudent = () =>{
 
         const dataToSend = {
             ...formData,
-            city_id: Number(formData.city_id)
+            city_id: formData.city_id === "" ? null : Number(formData.city_id)
         };
 
         console.log(dataToSend)
@@ -73,6 +73,7 @@ const PostSudent = () =>{
             <h1 className="app-title main-content"> Dodaj novog studenta </h1>
             <Form onSubmit={handleSubmit} className="student-form">
                 <Form.Group controlId="FormBasicUsername">
+                    <Form.Label>Username:</Form.Label>
                     <Form.Control
                         type= "text"
                         name ="username"
@@ -83,6 +84,7 @@ const PostSudent = () =>{
                 </Form.Group>
 
                 <Form.Group controlId="FormBasicPassword">
+                    <Form.Label>Password:</Form.Label>
                     <Form.Control
                         type="password"
                         name ="password"
@@ -93,6 +95,7 @@ const PostSudent = () =>{
                 </Form.Group>
 
                 <Form.Group controlId="FormBasicName">
+                    <Form.Label>Name:</Form.Label>
                     <Form.Control
                         type="text"
                         name ="name"
@@ -103,6 +106,7 @@ const PostSudent = () =>{
                 </Form.Group>
 
                 <Form.Group controlId="FormBasicSurname">
+                    <Form.Label>Surname:</Form.Label>
                     <Form.Control
                         type="text"
                         name ="surname"
@@ -113,6 +117,7 @@ const PostSudent = () =>{
                 </Form.Group>
 
                 <Form.Group controlId="FormBasicCity">
+                    <Form.Label>City:</Form.Label>
                     <Form.Select
                         name ="city_id"
                         value={formData.city_id}
