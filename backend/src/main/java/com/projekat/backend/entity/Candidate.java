@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Student {
+public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,10 +17,10 @@ public class Student {
     @JoinColumn(name = "city_id")
     private City city;
 
-    public Student() {
+    public Candidate() {
     }
 
-    public Student(Long id, String username, String password, String name, String surname, City city) {
+    public Candidate(Long id, String username, String password, String name, String surname, City city) {
         this.id = id;
         this.username = username;
         this.password = password;

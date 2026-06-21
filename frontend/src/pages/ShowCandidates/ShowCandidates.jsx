@@ -2,38 +2,35 @@ import {useEffect, useState} from "react";
 import {Button, Col, Container, Row, Table} from "react-bootstrap";
 
 
-const ShowStudents = () =>{
+const ShowCandidates = () =>{
 
-    const [students,setStudents] = useState([])
+    const [candidates,setCandidates] = useState([])
 
     useEffect(() => {
-        const FetchStudents = async() =>{
+        const fetchCandidates = async() =>{
             try{
-                const response = await fetch("http://localhost:8080/api/students")
+                const response = await fetch("http://localhost:8080/api/candidates")
                 const data = await response.json()
-                setStudents(data)
-                console.log("STUDENTS:", data)
+                setCandidates(data)
             }catch(error){
                 console.error("Fetching error:",error.message)
             }
         }
-        void FetchStudents()
+        void fetchCandidates()
     }, []);
 
-    const handleDelete = async (studentId) =>{
+    const handleDelete = async (candidateId) =>{
         try{
-            const response = await fetch(`http://localhost:8080/api/studentDel/${studentId}`,{
+            const response = await fetch(`http://localhost:8080/api/candidateDel/${candidateId}`,{
                 method: "DELETE"
             })
 
-            console.log(`Student with ID ${studentId} deleted successfully`)
-
             if (response.ok){
-                setStudents((prevStudents) => prevStudents.filter((student) => student.idStudent !== studentId))
+                setCandidates((prevCandidates) => prevCandidates.filter((candidate) => candidate.idCandidate !== candidateId))
             }
 
         } catch(error){
-            console.error("Error deleting student: ", error.message)
+            console.error("Error deleting candidate: ", error.message)
         }
     }
 
@@ -43,7 +40,7 @@ const ShowStudents = () =>{
             <Container className="mt-5">
                 <Row>
                     <Col>
-                        <h1 className="main-content app-title">Prikaz svih studenata u sistemu</h1>
+                        <h1 className="main-content app-title">Prikaz svih kandidata u sistemu</h1>
                         <Table striped bordered hover responsive>
                             <thead>
                                 <tr>
@@ -54,15 +51,15 @@ const ShowStudents = () =>{
                                 </tr>
                             </thead>
                             <tbody>
-                                {students.map((student) =>(
-                                    <tr key={student.id}>
-                                        <td>{student.username}</td>
-                                        <td>{student.name}</td>
-                                        <td>{student.surname}</td>
-                                        <td>{student.city_name ?? "Nije izabran grad"}</td>
+                                {candidates.map((candidate) =>(
+                                    <tr key={candidate.idCandidate}>
+                                        <td>{candidate.username}</td>
+                                        <td>{candidate.name}</td>
+                                        <td>{candidate.surname}</td>
+                                        <td>{candidate.city_name ?? "Nije izabran grad"}</td>
                                         <td>
                                             <Button variant="outline-secondary"> Update </Button>{" "}
-                                            <Button variant="outline-danger" onClick={() => handleDelete(student.idStudent)}> Delete </Button>
+                                            <Button variant="outline-danger" onClick={() => handleDelete(candidate.idCandidate)}> Delete </Button>
                                         </td>
                                     </tr>
                                 ))}
@@ -75,4 +72,4 @@ const ShowStudents = () =>{
     )
 }
 
-export default ShowStudents
+export default ShowCandidates

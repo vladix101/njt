@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 
-const PostSudent = () =>{
+const PostCandidate = () =>{
 
     const navigate = useNavigate()
 
@@ -35,16 +35,16 @@ const PostSudent = () =>{
         console.log(dataToSend)
 
         try{
-            const response = await(fetch("http://localhost:8080/api/student", {
+            const response = await(fetch("http://localhost:8080/api/candidate", {
                 method: "POST",
                 headers: {"Content-Type" : "application/json"},
                 body: JSON.stringify(dataToSend)
             }))
             const data = await(response.json())
-            console.log("Student is created : ", data)
+            console.log("Candidate is created : ", data)
             navigate("/")
         } catch (error){
-            console.error("Error creating student : ", error.message)
+            console.error("Error creating candidate : ", error.message)
         }
 
     }
@@ -70,8 +70,8 @@ const PostSudent = () =>{
     return(
         <>
         <div>
-            <h1 className="app-title main-content"> Dodaj novog studenta </h1>
-            <Form onSubmit={handleSubmit} className="student-form">
+            <h1 className="app-title main-content"> Dodaj novog kandidata </h1>
+            <Form onSubmit={handleSubmit} className="candidate-form">
                 <Form.Group controlId="FormBasicUsername">
                     <Form.Label>Username:</Form.Label>
                     <Form.Control
@@ -133,7 +133,7 @@ const PostSudent = () =>{
                     </Form.Select>
 
                 </Form.Group>
-                <Button variant="primary" type="submit" className="student-button"> Dodaj </Button>
+                <Button variant="primary" type="submit" className="candidate-button"> Dodaj </Button>
             </Form>
         </div>
         </>
@@ -141,4 +141,4 @@ const PostSudent = () =>{
 
 }
 
-export default PostSudent
+export default PostCandidate

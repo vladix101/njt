@@ -1,7 +1,7 @@
 package com.projekat.backend.dto;
 
-public class StudentDto {
-    private Long idStudent;
+public class CandidateDto {
+    private Long idCandidate;
     private String name;
     private String surname;
     private String username;
@@ -9,11 +9,11 @@ public class StudentDto {
     private Long city_id;
     private String city_name;
 
-    public StudentDto() {
+    public CandidateDto() {
     }
 
-    public StudentDto(Long idStudent, String surname, String name, String username, String password, Long city_id, String city_name) {
-        this.idStudent = idStudent;
+    public CandidateDto(Long idCandidate, String surname, String name, String username, String password, Long city_id, String city_name) {
+        this.idCandidate = idCandidate;
         this.surname = surname;
         this.name = name;
         this.username = username;
@@ -22,12 +22,12 @@ public class StudentDto {
         this.city_name = city_name;
     }
 
-    public Long getIdStudent() {
-        return idStudent;
+    public Long getIdCandidate() {
+        return idCandidate;
     }
 
-    public void setIdStudent(Long idStudent) {
-        this.idStudent = idStudent;
+    public void setIdCandidate(Long idCandidate) {
+        this.idCandidate = idCandidate;
     }
 
     public String getName() {

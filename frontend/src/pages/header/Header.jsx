@@ -10,12 +10,12 @@ const Header = () =>{
                 </Navbar.Brand>
 
                 <Nav className="ms-auto nav-links">
-                    <Nav.Link as={Link} to="/students">
-                        Students
+                    <Nav.Link as={Link} to="/candidates">
+                        Candidates
                     </Nav.Link>
 
-                    <Nav.Link as={Link} to="/student">
-                        Post Student
+                    <Nav.Link as={Link} to="/candidate">
+                        Post Candidate
                     </Nav.Link>
                 </Nav>
             </Container>

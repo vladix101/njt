@@ -47,7 +47,59 @@
   text-align: center;
 }
 
-.student-form{
+.course-grid {
+  width: min(100%, 980px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+  margin-top: 12px;
+}
+
+.course-card {
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1);
+  text-align: left;
+}
+
+.course-card h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.course-register-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 11px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+  transition: 0.25s ease;
+}
+
+.course-register-button:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(124, 58, 237, 0.34);
+}
+
+.candidate-form{
   width: 100%;
   max-width: 400px;
   margin-top: 25px;
@@ -60,17 +112,17 @@
   padding: 15px;
 }
 
-.student-form .form-control {
+.candidate-form .form-control {
   border-radius: 5px;
   margin-bottom: 10px;
 }
 
-.student-form .form-control:focus {
+.candidate-form .form-control:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-.student-form .student-button {
+.candidate-form .candidate-button {
   display: block;
   max-width: 100px;
   margin-top: 13px;
