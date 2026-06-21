@@ -1,28 +1,103 @@
-import {Link} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
-const courses = [
-    "Web Development",
-    "Java Programming",
-    "Database Systems",
-    "Software Engineering",
-    "React Fundamentals",
-    "Spring Boot"
-];
+const Dashboard = ({loggedInUser}) => {
+    const navigate = useNavigate()
+    const [listeningGroups, setListeningGroups] = useState([])
+    const [error, setError] = useState("")
+    const userType = loggedInUser?.userType
 
-const Dashboard = () => {
+    useEffect(() => {
+        const fetchListeningGroups = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/listening-groups")
+                if (!response.ok) {
+                    setError("Listening groups could not be fetched")
+                    return
+                }
+                setListeningGroups(await response.json())
+            } catch (error) {
+                console.error("Error fetching listening groups:", error.message)
+                setError("Listening groups could not be fetched")
+            }
+        }
+
+        void fetchListeningGroups()
+    }, [])
+
+    const formatDate = (date) => {
+        if (!date) {
+            return "No start date"
+        }
+        return new Date(date).toLocaleString()
+    }
+
+    const handleJoin = (group) => {
+        console.log("Join listening group:", group.id)
+    }
+
+    const handleView = (group) => {
+        alert(`${group.name}\nStart: ${formatDate(group.startDate)}\nEnd: ${formatDate(group.endDate)}`)
+    }
+
+    const handleEdit = (group) => {
+        navigate(`/groups/${group.id}/edit`)
+    }
+
+    const handleDelete = async (group) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/listening-groups/${group.id}`, {
+                method: "DELETE"
+            })
+
+            if (!response.ok) {
+                setError("Listening group could not be deleted")
+                return
+            }
+
+            setListeningGroups(listeningGroups.filter((listeningGroup) => listeningGroup.id !== group.id))
+        } catch (error) {
+            console.error("Error deleting listening group:", error.message)
+            setError("Listening group could not be deleted")
+        }
+    }
 
     return(
         <>
             <main className="main-content">
                 <h1 className="app-title">Courses</h1>
 
+                {error && <p className="form-error">{error}</p>}
+
                 <section className="course-grid" aria-label="Available courses">
-                    {courses.map((course) => (
-                        <article className="course-card" key={course}>
-                            <h2>{course}</h2>
-                            <Link className="course-register-button" to="/register">
-                                Register
-                            </Link>
+                    {listeningGroups.map((group) => (
+                        <article className="course-card" key={group.id}>
+                            <div>
+                                <h2>{group.name}</h2>
+                                <p className="course-date">Start: {formatDate(group.startDate)}</p>
+                            </div>
+
+                            {userType === "CANDIDATE" && (
+                                <div className="course-actions">
+                                    <button className="course-register-button" type="button" onClick={() => handleJoin(group)}>
+                                        JOIN
+                                    </button>
+                                </div>
+                            )}
+
+                            {userType === "INSTRUCTOR" && (
+                                <div className="course-actions">
+                                    <button className="course-secondary-button" type="button" onClick={() => handleView(group)}>
+                                        VIEW
+                                    </button>
+                                    <button className="course-secondary-button" type="button" onClick={() => handleEdit(group)}>
+                                        EDIT
+                                    </button>
+                                    <button className="course-danger-button" type="button" onClick={() => handleDelete(group)}>
+                                        DELETE
+                                    </button>
+                                </div>
+                            )}
                         </article>
                     ))}
                 </section>

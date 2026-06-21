@@ -23,12 +23,17 @@
 }
 
 .nav-links .nav-link {
+    border: none;
     color: rgba(255, 255, 255, 0.88) !important;
     font-size: 17px;
     font-weight: 600;
     padding: 10px 18px !important;
     border-radius: 999px;
     transition: 0.25s ease;
+}
+
+.nav-button {
+    background: transparent;
 }
 
 .nav-links .nav-link:hover {

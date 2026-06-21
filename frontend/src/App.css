@@ -77,12 +77,28 @@
   line-height: 1.2;
 }
 
+.course-date {
+  margin: 14px 0 0;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.course-actions {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
 .course-register-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 44px;
   padding: 11px 20px;
+  border: none;
   border-radius: 999px;
   background: linear-gradient(135deg, #2563eb, #7c3aed);
   color: #ffffff;
@@ -93,10 +109,37 @@
   transition: 0.25s ease;
 }
 
-.course-register-button:hover {
+.course-register-button:hover,
+.course-secondary-button:hover,
+.course-danger-button:hover {
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 16px 32px rgba(124, 58, 237, 0.34);
+}
+
+.course-secondary-button,
+.course-danger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  transition: 0.25s ease;
+}
+
+.course-secondary-button {
+  background: #0f172a;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.22);
+}
+
+.course-danger-button {
+  background: #dc2626;
+  box-shadow: 0 10px 22px rgba(220, 38, 38, 0.22);
 }
 
 .candidate-form{
@@ -183,4 +226,81 @@
 .register-next-button:disabled {
   background: #94a3b8;
   box-shadow: none;
+}
+
+.form-error {
+  margin: 8px 0 0;
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.register-link-text {
+  margin: 18px 0 0;
+  color: #374151;
+  font-size: 15px;
+  text-align: center;
+}
+
+.register-link-text a {
+  color: #2563eb;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.register-link-text a:hover {
+  text-decoration: underline;
+}
+
+.candidate-list {
+  width: min(100%, 980px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  margin-top: 12px;
+}
+
+.candidate-card {
+  padding: 24px;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1);
+  text-align: left;
+}
+
+.candidate-card h2 {
+  margin: 0 0 14px;
+  color: #111827;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.candidate-card p {
+  margin: 7px 0;
+  color: #475569;
+  font-weight: 600;
+}
+
+.candidate-groups {
+  margin-top: 18px;
+}
+
+.candidate-groups h3 {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.candidate-group-pill {
+  display: inline-flex;
+  margin: 0 8px 8px 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 13px;
+  font-weight: 800;
 }
