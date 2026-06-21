@@ -1,4 +1,4 @@
-import {Container, Nav, Navbar} from "react-bootstrap"
+import {Container, Navbar} from "react-bootstrap"
 import {Link} from 'react-router-dom'
 import './Header.css'
 const Header = () =>{
@@ -9,15 +9,15 @@ const Header = () =>{
                     Aplikacija
                 </Navbar.Brand>
 
-                <Nav className="ms-auto nav-links">
-                    <Nav.Link as={Link} to="/candidates">
+                <div className="ms-auto nav-links">
+                    <Link className="nav-link" to="/candidates">
                         Candidates
-                    </Nav.Link>
+                    </Link>
 
-                    <Nav.Link as={Link} to="/candidate">
+                    <Link className="nav-link" to="/candidate">
                         Post Candidate
-                    </Nav.Link>
-                </Nav>
+                    </Link>
+                </div>
             </Container>
         </Navbar>
     )

@@ -42,7 +42,7 @@ const PostCandidate = () =>{
             }))
             const data = await(response.json())
             console.log("Candidate is created : ", data)
-            navigate("/")
+            navigate("/candidates")
         } catch (error){
             console.error("Error creating candidate : ", error.message)
         }

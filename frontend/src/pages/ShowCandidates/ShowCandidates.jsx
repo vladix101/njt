@@ -6,10 +6,16 @@ const ShowCandidates = () =>{
 
     const [candidates,setCandidates] = useState([])
 
+    const getCandidateId = (candidate) => candidate.idCandidate ?? candidate.id
+
     useEffect(() => {
         const fetchCandidates = async() =>{
             try{
                 const response = await fetch("http://localhost:8080/api/candidates")
+                if (!response.ok) {
+                    console.error("Candidates could not be fetched")
+                    return
+                }
                 const data = await response.json()
                 setCandidates(data)
             }catch(error){
@@ -26,7 +32,9 @@ const ShowCandidates = () =>{
             })
 
             if (response.ok){
-                setCandidates((prevCandidates) => prevCandidates.filter((candidate) => candidate.idCandidate !== candidateId))
+                setCandidates((prevCandidates) => prevCandidates.filter((candidate) => getCandidateId(candidate) !== candidateId))
+            } else {
+                console.error("Candidate could not be deleted")
             }
 
         } catch(error){
@@ -52,14 +60,14 @@ const ShowCandidates = () =>{
                             </thead>
                             <tbody>
                                 {candidates.map((candidate) =>(
-                                    <tr key={candidate.idCandidate}>
+                                    <tr key={getCandidateId(candidate)}>
                                         <td>{candidate.username}</td>
                                         <td>{candidate.name}</td>
                                         <td>{candidate.surname}</td>
                                         <td>{candidate.city_name ?? "Nije izabran grad"}</td>
                                         <td>
                                             <Button variant="outline-secondary"> Update </Button>{" "}
-                                            <Button variant="outline-danger" onClick={() => handleDelete(candidate.idCandidate)}> Delete </Button>
+                                            <Button variant="outline-danger" onClick={() => handleDelete(getCandidateId(candidate))}> Delete </Button>
                                         </td>
                                     </tr>
                                 ))}
