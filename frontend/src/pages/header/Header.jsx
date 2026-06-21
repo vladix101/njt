@@ -10,12 +10,8 @@ const Header = () =>{
                 </Navbar.Brand>
 
                 <div className="ms-auto nav-links">
-                    <Link className="nav-link" to="/candidates">
-                        Candidates
-                    </Link>
-
-                    <Link className="nav-link" to="/candidate">
-                        Post Candidate
+                    <Link className="nav-link" to="/register">
+                        Register
                     </Link>
                 </div>
             </Container>

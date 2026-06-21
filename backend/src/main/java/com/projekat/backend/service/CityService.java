@@ -1,6 +1,6 @@
 package com.projekat.backend.service;
 
-import com.projekat.backend.entity.City;
+import com.projekat.backend.dto.CityDto;
 import com.projekat.backend.repository.CityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,10 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    public List<City> getCities(){
-        return cityRepository.findAll();
+    public List<CityDto> getCities(){
+        return cityRepository.findAll()
+                .stream()
+                .map(city -> new CityDto(city.getName(), city.getId()))
+                .toList();
     }
 }

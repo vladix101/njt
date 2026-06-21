@@ -1,24 +1,12 @@
 package com.projekat.backend.dto;
 
-public class CandidateDto {
+public class InstructorDto {
     private String name;
     private String surname;
     private String username;
     private String password;
-    private Integer age;
-    private Long cityId;
-
-    public CandidateDto() {
-    }
-
-    public CandidateDto(String name, String surname, String username, String password, Integer age, Long cityId) {
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.password = password;
-        this.age = age;
-        this.cityId = cityId;
-    }
+    private Integer yearsOfExperience;
+    private Long subjectId;
 
     public String getName() {
         return name;
@@ -52,19 +40,19 @@ public class CandidateDto {
         this.password = password;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getYearsOfExperience() {
+        return yearsOfExperience;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setYearsOfExperience(Integer yearsOfExperience) {
+        this.yearsOfExperience = yearsOfExperience;
     }
 
-    public Long getCityId() {
-        return cityId;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
     }
 }

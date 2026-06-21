@@ -1,7 +1,7 @@
 package com.projekat.backend.controller;
 
-import com.projekat.backend.dto.CityDto;
-import com.projekat.backend.service.CityService;
+import com.projekat.backend.dto.SubjectDto;
+import com.projekat.backend.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +14,15 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-public class CityController {
+public class SubjectController {
 
-    private final CityService cityService;
+    private final SubjectRepository subjectRepository;
 
-    @GetMapping("/cities")
-    public List<CityDto> getCities(){
-        return cityService.getCities();
+    @GetMapping("/subjects")
+    public List<SubjectDto> getSubjects() {
+        return subjectRepository.findAll()
+                .stream()
+                .map(subject -> new SubjectDto(subject.getId(), subject.getName()))
+                .toList();
     }
-
 }

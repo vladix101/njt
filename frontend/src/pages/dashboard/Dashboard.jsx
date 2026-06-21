@@ -20,7 +20,7 @@ const Dashboard = () => {
                     {courses.map((course) => (
                         <article className="course-card" key={course}>
                             <h2>{course}</h2>
-                            <Link className="course-register-button" to="/candidate">
+                            <Link className="course-register-button" to="/register">
                                 Register
                             </Link>
                         </article>
