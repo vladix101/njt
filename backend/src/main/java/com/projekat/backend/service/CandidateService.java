@@ -3,6 +3,7 @@ package com.projekat.backend.service;
 import com.projekat.backend.dto.CandidateDto;
 import com.projekat.backend.entity.City;
 import com.projekat.backend.entity.Candidate;
+import com.projekat.backend.entity.UserProfile;
 import com.projekat.backend.repository.CityRepository;
 import com.projekat.backend.repository.CandidateRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ public class CandidateService {
         if (candidateDto.getCity_id() != null) {
             city = cityRepository.getReferenceById(candidateDto.getCity_id());
         }
-        Candidate candidate = new Candidate(candidateDto.getIdCandidate(), candidateDto.getUsername(), candidateDto.getPassword(),
-                candidateDto.getName(), candidateDto.getSurname(), city);
+        UserProfile userProfile = new UserProfile(null, candidateDto.getUsername(), candidateDto.getPassword());
+        Candidate candidate = new Candidate(candidateDto.getIdCandidate(), candidateDto.getName(), candidateDto.getSurname(),
+                candidateDto.getAge(), city, userProfile);
         Candidate c = candidateRepository.save(candidate);
         return toDto(c);
     }
@@ -48,7 +50,13 @@ public class CandidateService {
             cityId = candidate.getCity().getId();
             cityName = candidate.getCity().getName();
         }
-        return new CandidateDto(candidate.getId(), candidate.getSurname(), candidate.getName(), candidate.getUsername(),
-                candidate.getPassword(), cityId, cityName);
+        String username = null;
+        String password = null;
+        if (candidate.getUserProfile() != null) {
+            username = candidate.getUserProfile().getUsername();
+            password = candidate.getUserProfile().getPassword();
+        }
+        return new CandidateDto(candidate.getId(), candidate.getSurname(), candidate.getName(), username,
+                password, candidate.getAge(), cityId, cityName);
     }
 }

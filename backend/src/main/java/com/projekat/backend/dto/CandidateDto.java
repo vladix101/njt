@@ -6,18 +6,20 @@ public class CandidateDto {
     private String surname;
     private String username;
     private String password;
+    private Integer age;
     private Long city_id;
     private String city_name;
 
     public CandidateDto() {
     }
 
-    public CandidateDto(Long idCandidate, String surname, String name, String username, String password, Long city_id, String city_name) {
+    public CandidateDto(Long idCandidate, String surname, String name, String username, String password, Integer age, Long city_id, String city_name) {
         this.idCandidate = idCandidate;
         this.surname = surname;
         this.name = name;
         this.username = username;
         this.password = password;
+        this.age = age;
         this.city_id = city_id;
         this.city_name = city_name;
     }
@@ -60,6 +62,14 @@ public class CandidateDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public Long getCity_id() {

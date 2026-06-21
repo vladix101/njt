@@ -55,6 +55,7 @@ const ShowCandidates = () =>{
                                     <th>Username</th>
                                     <th>Name</th>
                                     <th>Surname</th>
+                                    <th>Age</th>
                                     <th>City</th>
                                 </tr>
                             </thead>
@@ -64,6 +65,7 @@ const ShowCandidates = () =>{
                                         <td>{candidate.username}</td>
                                         <td>{candidate.name}</td>
                                         <td>{candidate.surname}</td>
+                                        <td>{candidate.age ?? ""}</td>
                                         <td>{candidate.city_name ?? "Nije izabran grad"}</td>
                                         <td>
                                             <Button variant="outline-secondary"> Update </Button>{" "}

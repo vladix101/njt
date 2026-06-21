@@ -11,6 +11,7 @@ const PostCandidate = () =>{
         password: "",
         name: "",
         surname: "",
+        age: "",
         city_id: ""
     })
 
@@ -29,6 +30,7 @@ const PostCandidate = () =>{
 
         const dataToSend = {
             ...formData,
+            age: formData.age === "" ? null : Number(formData.age),
             city_id: formData.city_id === "" ? null : Number(formData.city_id)
         };
 
@@ -112,6 +114,17 @@ const PostCandidate = () =>{
                         name ="surname"
                         placeholder="Enter surname"
                         value={formData.surname}
+                        onChange={handleInputChange}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId="FormBasicAge">
+                    <Form.Label>Age:</Form.Label>
+                    <Form.Control
+                        type="number"
+                        name ="age"
+                        placeholder="Enter age"
+                        value={formData.age}
                         onChange={handleInputChange}
                     />
                 </Form.Group>

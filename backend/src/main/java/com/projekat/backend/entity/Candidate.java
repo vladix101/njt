@@ -2,71 +2,40 @@ package com.projekat.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@DiscriminatorValue("CANDIDATE")
 @Data
-public class Candidate {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
-    private String password;
-    private String name;
-    private String surname;
+@EqualsAndHashCode(callSuper = true)
+public class Candidate extends User {
+    private Integer age;
+
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL)
+    private List<LC> lcs = new ArrayList<>();
+
     public Candidate() {
     }
 
-    public Candidate(Long id, String username, String password, String name, String surname, City city) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
+    public Candidate(Long id, String name, String surname, Integer age, City city, UserProfile userProfile) {
+        super(id, name, surname, userProfile);
+        this.age = age;
         this.city = city;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getAge() {
+        return age;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public City getCity() {
