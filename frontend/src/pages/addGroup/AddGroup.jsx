@@ -7,6 +7,7 @@ const AddGroup = ({loggedInUser}) => {
     const {groupId} = useParams()
     const [courses, setCourses] = useState([])
     const [error, setError] = useState("")
+    const [fieldErrors, setFieldErrors] = useState({})
     const [formData, setFormData] = useState({
         name: "",
         startDate: "",
@@ -61,6 +62,10 @@ const AddGroup = ({loggedInUser}) => {
 
     const handleInputChange = (event) => {
         const {name, value} = event.target
+        setFieldErrors({
+            ...fieldErrors,
+            [name]: ""
+        })
         setFormData({
             ...formData,
             [name]: value
@@ -70,6 +75,17 @@ const AddGroup = ({loggedInUser}) => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         setError("")
+        setFieldErrors({})
+
+        const validationErrors = {}
+        if (formData.startDate && formData.endDate && new Date(formData.endDate) < new Date(formData.startDate)) {
+            validationErrors.endDate = "End date must not be before start date"
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            setFieldErrors(validationErrors)
+            return
+        }
 
         const dataToSend = {
             name: formData.name,
@@ -87,7 +103,10 @@ const AddGroup = ({loggedInUser}) => {
             })
 
             if (!response.ok) {
-                setError("Listening group could not be saved")
+                const errorData = await response.json().catch(() => null)
+                const backendFieldErrors = errorData?.fieldErrors ?? {}
+                setFieldErrors(backendFieldErrors)
+                setError(Object.keys(backendFieldErrors).length === 0 ? "Listening group could not be saved" : "")
                 return
             }
 
@@ -110,11 +129,13 @@ const AddGroup = ({loggedInUser}) => {
                 <Form.Group controlId="GroupStartDate">
                     <Form.Label>Start date:</Form.Label>
                     <Form.Control type="datetime-local" name="startDate" value={formData.startDate} onChange={handleInputChange} />
+                    {fieldErrors.startDate && <p className="field-error">{fieldErrors.startDate}</p>}
                 </Form.Group>
 
                 <Form.Group controlId="GroupEndDate">
                     <Form.Label>End date:</Form.Label>
                     <Form.Control type="datetime-local" name="endDate" value={formData.endDate} onChange={handleInputChange} />
+                    {fieldErrors.endDate && <p className="field-error">{fieldErrors.endDate}</p>}
                 </Form.Group>
 
                 <Form.Group controlId="GroupCourse">

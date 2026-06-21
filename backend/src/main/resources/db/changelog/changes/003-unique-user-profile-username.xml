@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="003-unique-user-profile-username" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="user_profile"/>
+            <columnExists tableName="user_profile" columnName="username"/>
+        </preConditions>
+        <addUniqueConstraint
+                tableName="user_profile"
+                columnNames="username"
+                constraintName="uk_user_profile_username"/>
+    </changeSet>
+</databaseChangeLog>

@@ -16,6 +16,7 @@ const CandidateRegistration = () => {
         cityId: ""
     })
     const [cities, setCities] = useState([])
+    const [fieldErrors, setFieldErrors] = useState({})
 
     useEffect(() => {
         const fetchCities = async () => {
@@ -36,6 +37,10 @@ const CandidateRegistration = () => {
 
     const handleInputChange = (event) => {
         const {name, value} = event.target
+        setFieldErrors({
+            ...fieldErrors,
+            [name]: ""
+        })
         setFormData({
             ...formData,
             [name]: value
@@ -44,6 +49,17 @@ const CandidateRegistration = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        setFieldErrors({})
+
+        const validationErrors = {}
+        if (formData.password.length <= 6) {
+            validationErrors.password = "Password must have more than 6 characters"
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            setFieldErrors(validationErrors)
+            return
+        }
 
         const dataToSend = {
             ...formData,
@@ -59,7 +75,8 @@ const CandidateRegistration = () => {
             })
 
             if (!response.ok) {
-                console.error("Candidate registration failed")
+                const errorData = await response.json().catch(() => null)
+                setFieldErrors(errorData?.fieldErrors ?? {form: "Candidate registration failed"})
                 return
             }
 
@@ -88,11 +105,13 @@ const CandidateRegistration = () => {
                 <Form.Group controlId="CandidateUsername">
                     <Form.Label>Username:</Form.Label>
                     <Form.Control type="text" name="username" value={formData.username} onChange={handleInputChange} />
+                    {fieldErrors.username && <p className="field-error">{fieldErrors.username}</p>}
                 </Form.Group>
 
                 <Form.Group controlId="CandidatePassword">
                     <Form.Label>Password:</Form.Label>
                     <Form.Control type="password" name="password" value={formData.password} onChange={handleInputChange} />
+                    {fieldErrors.password && <p className="field-error">{fieldErrors.password}</p>}
                 </Form.Group>
 
                 <Form.Group controlId="CandidateAge">
@@ -109,6 +128,8 @@ const CandidateRegistration = () => {
                         ))}
                     </Form.Select>
                 </Form.Group>
+
+                {fieldErrors.form && <p className="form-error">{fieldErrors.form}</p>}
 
                 <Button variant="primary" type="submit" className="candidate-button">Register</Button>
             </Form>

@@ -1,6 +1,7 @@
 package com.projekat.backend.controller;
 
 import com.projekat.backend.dto.CandidateWithGroupsDto;
+import com.projekat.backend.dto.ListeningGroupDetailsDto;
 import com.projekat.backend.dto.ListeningGroupDto;
 import com.projekat.backend.dto.ListeningGroupRequestDto;
 import com.projekat.backend.service.ListeningGroupService;
@@ -35,6 +36,11 @@ public class ListeningGroupController {
     @GetMapping("/listening-groups/{id}")
     public ListeningGroupDto getListeningGroup(@PathVariable Long id) {
         return listeningGroupService.getListeningGroup(id);
+    }
+
+    @GetMapping("/listening-groups/{id}/details")
+    public ListeningGroupDetailsDto getListeningGroupDetails(@PathVariable Long id) {
+        return listeningGroupService.getListeningGroupDetails(id);
     }
 
     @PostMapping("/listening-groups")

@@ -10,6 +10,7 @@ import com.projekat.backend.entity.Instructor;
 import com.projekat.backend.entity.Subject;
 import com.projekat.backend.entity.User;
 import com.projekat.backend.entity.UserProfile;
+import com.projekat.backend.exception.ValidationException;
 import com.projekat.backend.repository.CandidateRepository;
 import com.projekat.backend.repository.CityRepository;
 import com.projekat.backend.repository.InstructorRepository;
@@ -19,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +35,8 @@ public class UserService {
     private final UserProfileRepository userProfileRepository;
 
     public Candidate registerCandidate(CandidateDto candidateDto) {
+        validateRegistration(candidateDto.getUsername(), candidateDto.getPassword());
+
         City city = null;
         if (candidateDto.getCityId() != null) {
             city = cityRepository.getReferenceById(candidateDto.getCityId());
@@ -44,6 +50,8 @@ public class UserService {
     }
 
     public Instructor registerInstructor(InstructorDto instructorDto) {
+        validateRegistration(instructorDto.getUsername(), instructorDto.getPassword());
+
         Subject subject = null;
         if (instructorDto.getSubjectId() != null) {
             subject = subjectRepository.getReferenceById(instructorDto.getSubjectId());
@@ -58,6 +66,24 @@ public class UserService {
         instructor.setUserProfile(userProfile);
 
         return instructorRepository.save(instructor);
+    }
+
+    private void validateRegistration(String username, String password) {
+        Map<String, String> fieldErrors = new LinkedHashMap<>();
+
+        if (username == null || username.isBlank()) {
+            fieldErrors.put("username", "Username is required");
+        } else if (userProfileRepository.existsByUsername(username)) {
+            fieldErrors.put("username", "Username already exists");
+        }
+
+        if (password == null || password.length() <= 6) {
+            fieldErrors.put("password", "Password must have more than 6 characters");
+        }
+
+        if (!fieldErrors.isEmpty()) {
+            throw new ValidationException(fieldErrors);
+        }
     }
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {

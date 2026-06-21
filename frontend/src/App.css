@@ -259,6 +259,14 @@
   text-align: center;
 }
 
+.field-error {
+  margin: -4px 0 8px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+}
+
 .register-link-text {
   margin: 18px 0 0;
   color: #374151;
@@ -326,4 +334,55 @@
   color: #1d4ed8;
   font-size: 13px;
   font-weight: 800;
+}
+
+.filter-bar {
+  width: min(100%, 980px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+  margin: 0 0 20px;
+}
+
+.filter-bar input {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+}
+
+.details-panel {
+  width: min(100%, 680px);
+  padding: 26px;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.1);
+  text-align: left;
+}
+
+.details-panel h2 {
+  margin: 0 0 16px;
+  color: #111827;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.details-panel p {
+  margin: 8px 0;
+  color: #475569;
+  font-weight: 700;
+}
+
+.joined-candidate-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-top: 1px solid #e5e7eb;
+  color: #111827;
+  font-weight: 700;
 }

@@ -63,7 +63,7 @@ const Dashboard = ({loggedInUser}) => {
     }
 
     const handleView = (group) => {
-        alert(`${group.name}\nStart: ${formatDate(group.startDate)}\nEnd: ${formatDate(group.endDate)}`)
+        navigate(`/groups/${group.id}`)
     }
 
     const handleEdit = (group) => {

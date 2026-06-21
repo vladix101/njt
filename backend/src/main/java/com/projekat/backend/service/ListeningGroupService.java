@@ -1,6 +1,8 @@
 package com.projekat.backend.service;
 
 import com.projekat.backend.dto.CandidateWithGroupsDto;
+import com.projekat.backend.dto.CandidateSummaryDto;
+import com.projekat.backend.dto.ListeningGroupDetailsDto;
 import com.projekat.backend.dto.ListeningGroupDto;
 import com.projekat.backend.dto.ListeningGroupRequestDto;
 import com.projekat.backend.entity.Candidate;
@@ -8,6 +10,7 @@ import com.projekat.backend.entity.Course;
 import com.projekat.backend.entity.Instructor;
 import com.projekat.backend.entity.LC;
 import com.projekat.backend.entity.ListeningGroup;
+import com.projekat.backend.exception.ValidationException;
 import com.projekat.backend.repository.CandidateRepository;
 import com.projekat.backend.repository.CourseRepository;
 import com.projekat.backend.repository.InstructorRepository;
@@ -17,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -42,8 +47,22 @@ public class ListeningGroupService {
         return toDto(listeningGroupRepository.getReferenceById(id));
     }
 
+    @Transactional(readOnly = true)
+    public ListeningGroupDetailsDto getListeningGroupDetails(Long id) {
+        ListeningGroup listeningGroup = listeningGroupRepository.getReferenceById(id);
+        List<CandidateSummaryDto> candidates = listeningGroup.getLcs()
+                .stream()
+                .map(LC::getCandidate)
+                .map(this::toCandidateSummaryDto)
+                .toList();
+
+        return new ListeningGroupDetailsDto(toDto(listeningGroup), candidates);
+    }
+
     @Transactional
     public ListeningGroupDto createListeningGroup(ListeningGroupRequestDto requestDto) {
+        validateListeningGroup(requestDto, null);
+
         ListeningGroup listeningGroup = new ListeningGroup();
         applyRequest(listeningGroup, requestDto);
         return toDto(listeningGroupRepository.save(listeningGroup));
@@ -51,6 +70,8 @@ public class ListeningGroupService {
 
     @Transactional
     public ListeningGroupDto updateListeningGroup(Long id, ListeningGroupRequestDto requestDto) {
+        validateListeningGroup(requestDto, id);
+
         ListeningGroup listeningGroup = listeningGroupRepository.getReferenceById(id);
         applyRequest(listeningGroup, requestDto);
         return toDto(listeningGroupRepository.save(listeningGroup));
@@ -88,6 +109,29 @@ public class ListeningGroupService {
                 .toList();
     }
 
+    private void validateListeningGroup(ListeningGroupRequestDto requestDto, Long existingId) {
+        Map<String, String> fieldErrors = new LinkedHashMap<>();
+
+        if (requestDto.getStartDate() != null && requestDto.getEndDate() != null
+                && requestDto.getEndDate().isBefore(requestDto.getStartDate())) {
+            fieldErrors.put("endDate", "End date must not be before start date");
+        }
+
+        if (requestDto.getCourseId() != null && requestDto.getStartDate() != null) {
+            boolean duplicateExists = existingId == null
+                    ? listeningGroupRepository.existsByCourseIdAndStartDate(requestDto.getCourseId(), requestDto.getStartDate())
+                    : listeningGroupRepository.existsByCourseIdAndStartDateAndIdNot(requestDto.getCourseId(), requestDto.getStartDate(), existingId);
+
+            if (duplicateExists) {
+                fieldErrors.put("startDate", "A listening group already exists for this course and start date");
+            }
+        }
+
+        if (!fieldErrors.isEmpty()) {
+            throw new ValidationException(fieldErrors);
+        }
+    }
+
     private void applyRequest(ListeningGroup listeningGroup, ListeningGroupRequestDto requestDto) {
         listeningGroup.setName(requestDto.getName());
         listeningGroup.setStartDate(requestDto.getStartDate());
@@ -112,6 +156,11 @@ public class ListeningGroupService {
 
         return new CandidateWithGroupsDto(candidate.getId(), candidate.getName(), candidate.getSurname(),
                 username, candidate.getAge(), cityName, groups);
+    }
+
+    private CandidateSummaryDto toCandidateSummaryDto(Candidate candidate) {
+        String username = candidate.getUserProfile() == null ? null : candidate.getUserProfile().getUsername();
+        return new CandidateSummaryDto(candidate.getId(), candidate.getName(), candidate.getSurname(), username);
     }
 
     private ListeningGroupDto toDto(ListeningGroup listeningGroup) {

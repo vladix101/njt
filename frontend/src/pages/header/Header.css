@@ -45,3 +45,49 @@
 .nav-links .nav-link:active {
     transform: scale(0.96);
 }
+
+.logout-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 23, 42, 0.48);
+}
+
+.logout-modal {
+    width: min(90vw, 390px);
+    padding: 24px;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+    text-align: center;
+}
+
+.logout-modal h2 {
+    margin: 0 0 20px;
+    color: #111827;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.logout-modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.logout-modal-actions button {
+    min-width: 88px;
+    min-height: 40px;
+    border: none;
+    border-radius: 999px;
+    color: #ffffff;
+    background: #2563eb;
+    font-weight: 800;
+}
+
+.logout-modal-actions button:last-child {
+    background: #64748b;
+}

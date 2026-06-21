@@ -12,6 +12,7 @@ import MyCourses from "./pages/myCourses/MyCourses.jsx";
 import AddGroup from "./pages/addGroup/AddGroup.jsx";
 import AllCandidates from "./pages/allCandidates/AllCandidates.jsx";
 import JoinGroup from "./pages/joinGroup/JoinGroup.jsx";
+import GroupDetails from "./pages/groupDetails/GroupDetails.jsx";
 
 function App() {
   const getStoredUser = () => {
@@ -54,6 +55,7 @@ function App() {
                 <Route path="/add-group" element={<AddGroup loggedInUser={loggedInUser}/>}/>
                 <Route path="/groups/:groupId/edit" element={<AddGroup loggedInUser={loggedInUser}/>}/>
                 <Route path="/groups/:groupId/join" element={<JoinGroup loggedInUser={loggedInUser}/>}/>
+                <Route path="/groups/:groupId" element={<GroupDetails/>}/>
                 <Route path="/candidates" element={<AllCandidates/>}/>
                 <Route path="*" element={<NoMatch/>}/>
             </Routes>

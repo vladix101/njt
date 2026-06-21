@@ -2,6 +2,11 @@ import {useEffect, useState} from "react";
 
 const AllCandidates = () => {
     const [candidates, setCandidates] = useState([])
+    const [filters, setFilters] = useState({
+        name: "",
+        surname: "",
+        courseOrGroup: ""
+    })
     const [error, setError] = useState("")
 
     useEffect(() => {
@@ -22,13 +27,59 @@ const AllCandidates = () => {
         void fetchCandidates()
     }, [])
 
+    const handleFilterChange = (event) => {
+        const {name, value} = event.target
+        setFilters({
+            ...filters,
+            [name]: value
+        })
+    }
+
+    const filteredCandidates = candidates.filter((candidate) => {
+        const nameMatches = candidate.name?.toLowerCase().includes(filters.name.toLowerCase())
+        const surnameMatches = candidate.surname?.toLowerCase().includes(filters.surname.toLowerCase())
+        const courseOrGroupMatches = (candidate.listeningGroups ?? []).some((group) => {
+            const searchValue = filters.courseOrGroup.toLowerCase()
+            return group.name?.toLowerCase().includes(searchValue)
+                || group.courseName?.toLowerCase().includes(searchValue)
+        })
+
+        return (!filters.name || nameMatches)
+            && (!filters.surname || surnameMatches)
+            && (!filters.courseOrGroup || courseOrGroupMatches)
+    })
+
     return (
         <main className="main-content">
             <h1 className="app-title">Candidates</h1>
             {error && <p className="form-error">{error}</p>}
 
+            <section className="filter-bar" aria-label="Candidate filters">
+                <input
+                    type="text"
+                    name="name"
+                    value={filters.name}
+                    onChange={handleFilterChange}
+                    placeholder="Search by name"
+                />
+                <input
+                    type="text"
+                    name="surname"
+                    value={filters.surname}
+                    onChange={handleFilterChange}
+                    placeholder="Search by surname"
+                />
+                <input
+                    type="text"
+                    name="courseOrGroup"
+                    value={filters.courseOrGroup}
+                    onChange={handleFilterChange}
+                    placeholder="Search by course or group"
+                />
+            </section>
+
             <section className="candidate-list" aria-label="Candidates">
-                {candidates.map((candidate) => (
+                {filteredCandidates.map((candidate) => (
                     <article className="candidate-card" key={candidate.id}>
                         <h2>{candidate.name} {candidate.surname}</h2>
                         <p>Username: {candidate.username || "No username"}</p>
@@ -40,7 +91,7 @@ const AllCandidates = () => {
                             {(candidate.listeningGroups ?? []).length === 0 && <p>No listening groups</p>}
                             {(candidate.listeningGroups ?? []).map((group) => (
                                 <span key={group.id} className="candidate-group-pill">
-                                    {group.name}
+                                    {group.courseName ? `${group.name} - ${group.courseName}` : group.name}
                                 </span>
                             ))}
                         </div>
