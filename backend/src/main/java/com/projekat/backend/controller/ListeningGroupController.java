@@ -59,6 +59,11 @@ public class ListeningGroupController {
         return listeningGroupService.getListeningGroupsForCandidate(candidateId);
     }
 
+    @PostMapping("/candidates/{candidateId}/listening-groups/{listeningGroupId}/join")
+    public ListeningGroupDto joinListeningGroup(@PathVariable Long candidateId, @PathVariable Long listeningGroupId) {
+        return listeningGroupService.joinListeningGroup(candidateId, listeningGroupId);
+    }
+
     @GetMapping("/candidates/with-listening-groups")
     public List<CandidateWithGroupsDto> getCandidatesWithListeningGroups() {
         return listeningGroupService.getCandidatesWithListeningGroups();

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="002-unique-lc-relation" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="lc"/>
+            <columnExists tableName="lc" columnName="id_listening_group"/>
+            <columnExists tableName="lc" columnName="id_candidate"/>
+        </preConditions>
+        <addUniqueConstraint
+                tableName="lc"
+                columnNames="id_listening_group, id_candidate"
+                constraintName="uk_lc_listening_group_candidate"/>
+    </changeSet>
+</databaseChangeLog>

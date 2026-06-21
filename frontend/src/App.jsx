@@ -11,12 +11,24 @@ import Login from "./pages/login/Login.jsx";
 import MyCourses from "./pages/myCourses/MyCourses.jsx";
 import AddGroup from "./pages/addGroup/AddGroup.jsx";
 import AllCandidates from "./pages/allCandidates/AllCandidates.jsx";
+import JoinGroup from "./pages/joinGroup/JoinGroup.jsx";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(null)
+  const getStoredUser = () => {
+      try {
+          const storedUser = JSON.parse(localStorage.getItem("loggedInUser") || "null")
+          return storedUser?.userId && storedUser?.userType ? storedUser : null
+      } catch {
+          return null
+      }
+  }
+
+  const [loggedInUser, setLoggedInUser] = useState(getStoredUser)
 
   useEffect(() => {
-      localStorage.removeItem("loggedInUser")
+      if (!getStoredUser()) {
+          localStorage.removeItem("loggedInUser")
+      }
   }, [])
 
   const handleLogin = (user) => {
@@ -41,6 +53,7 @@ function App() {
                 <Route path="/my-courses" element={<MyCourses loggedInUser={loggedInUser}/>}/>
                 <Route path="/add-group" element={<AddGroup loggedInUser={loggedInUser}/>}/>
                 <Route path="/groups/:groupId/edit" element={<AddGroup loggedInUser={loggedInUser}/>}/>
+                <Route path="/groups/:groupId/join" element={<JoinGroup loggedInUser={loggedInUser}/>}/>
                 <Route path="/candidates" element={<AllCandidates/>}/>
                 <Route path="*" element={<NoMatch/>}/>
             </Routes>

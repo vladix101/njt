@@ -11,6 +11,7 @@ import com.projekat.backend.entity.ListeningGroup;
 import com.projekat.backend.repository.CandidateRepository;
 import com.projekat.backend.repository.CourseRepository;
 import com.projekat.backend.repository.InstructorRepository;
+import com.projekat.backend.repository.LCRepository;
 import com.projekat.backend.repository.ListeningGroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class ListeningGroupService {
     private final CandidateRepository candidateRepository;
     private final CourseRepository courseRepository;
     private final InstructorRepository instructorRepository;
+    private final LCRepository lcRepository;
 
     @Transactional(readOnly = true)
     public List<ListeningGroupDto> getListeningGroups() {
@@ -65,6 +67,17 @@ public class ListeningGroupService {
                 .stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public ListeningGroupDto joinListeningGroup(Long candidateId, Long listeningGroupId) {
+        Candidate candidate = candidateRepository.getReferenceById(candidateId);
+        ListeningGroup listeningGroup = listeningGroupRepository.getReferenceById(listeningGroupId);
+
+        lcRepository.findByCandidateIdAndListeningGroupId(candidateId, listeningGroupId)
+                .orElseGet(() -> lcRepository.save(new LC(null, listeningGroup, candidate)));
+
+        return toDto(listeningGroup);
     }
 
     @Transactional(readOnly = true)

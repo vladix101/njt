@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 const Dashboard = ({loggedInUser}) => {
     const navigate = useNavigate()
     const [listeningGroups, setListeningGroups] = useState([])
+    const [joinedGroupIds, setJoinedGroupIds] = useState([])
     const [error, setError] = useState("")
     const userType = loggedInUser?.userType
 
@@ -25,6 +26,31 @@ const Dashboard = ({loggedInUser}) => {
         void fetchListeningGroups()
     }, [])
 
+    useEffect(() => {
+        const fetchJoinedGroups = async () => {
+            if (userType !== "CANDIDATE" || !loggedInUser?.userId) {
+                setJoinedGroupIds([])
+                return
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/candidates/${loggedInUser.userId}/listening-groups`)
+                if (!response.ok) {
+                    setError("Joined groups could not be fetched")
+                    return
+                }
+
+                const joinedGroups = await response.json()
+                setJoinedGroupIds(joinedGroups.map((group) => group.id))
+            } catch (error) {
+                console.error("Error fetching joined groups:", error.message)
+                setError("Joined groups could not be fetched")
+            }
+        }
+
+        void fetchJoinedGroups()
+    }, [loggedInUser?.userId, userType])
+
     const formatDate = (date) => {
         if (!date) {
             return "No start date"
@@ -33,7 +59,7 @@ const Dashboard = ({loggedInUser}) => {
     }
 
     const handleJoin = (group) => {
-        console.log("Join listening group:", group.id)
+        navigate(`/groups/${group.id}/join`)
     }
 
     const handleView = (group) => {
@@ -79,9 +105,13 @@ const Dashboard = ({loggedInUser}) => {
 
                             {userType === "CANDIDATE" && (
                                 <div className="course-actions">
-                                    <button className="course-register-button" type="button" onClick={() => handleJoin(group)}>
-                                        JOIN
-                                    </button>
+                                    {joinedGroupIds.includes(group.id) ? (
+                                        <span className="purchased-label">Kupljeno</span>
+                                    ) : (
+                                        <button className="course-register-button" type="button" onClick={() => handleJoin(group)}>
+                                            JOIN
+                                        </button>
+                                    )}
                                 </div>
                             )}
 
