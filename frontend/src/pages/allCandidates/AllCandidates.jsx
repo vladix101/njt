@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
+import {Button} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
 const AllCandidates = () => {
+    const navigate = useNavigate()
     const [candidates, setCandidates] = useState([])
     const [filters, setFilters] = useState({
         name: "",
@@ -42,6 +45,7 @@ const AllCandidates = () => {
             const searchValue = filters.courseOrGroup.toLowerCase()
             return group.name?.toLowerCase().includes(searchValue)
                 || group.courseName?.toLowerCase().includes(searchValue)
+                || group.subjectName?.toLowerCase().includes(searchValue)
         })
 
         return (!filters.name || nameMatches)
@@ -52,6 +56,9 @@ const AllCandidates = () => {
     return (
         <main className="main-content">
             <h1 className="app-title">Candidates</h1>
+            <Button variant="secondary" type="button" className="back-button" onClick={() => navigate(-1)}>
+                Back
+            </Button>
             {error && <p className="form-error">{error}</p>}
 
             <section className="filter-bar" aria-label="Candidate filters">
@@ -74,7 +81,7 @@ const AllCandidates = () => {
                     name="courseOrGroup"
                     value={filters.courseOrGroup}
                     onChange={handleFilterChange}
-                    placeholder="Search by course or group"
+                    placeholder="Search by course, subject or group"
                 />
             </section>
 

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="004-extend-seed-data" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="app_user"/>
+            <tableExists tableName="candidate"/>
+            <tableExists tableName="city"/>
+            <tableExists tableName="course"/>
+            <tableExists tableName="instructor"/>
+            <tableExists tableName="lc"/>
+            <tableExists tableName="listening_group"/>
+            <tableExists tableName="subject"/>
+            <tableExists tableName="user_profile"/>
+        </preConditions>
+        <sql splitStatements="true" stripComments="true">
+            INSERT IGNORE INTO city (id, name) VALUES
+                (101, 'Kragujevac'),
+                (102, 'Subotica');
+
+            INSERT IGNORE INTO subject (id, name) VALUES
+                (101, 'Software Engineering'),
+                (102, 'Web Development');
+
+            INSERT IGNORE INTO course (id, name, level, subject_id) VALUES
+                (101, 'Spring Boot Services', 'Intermediate', 1),
+                (102, 'React Components', 'Intermediate', 2),
+                (103, 'Advanced SQL', 'Advanced', 3),
+                (104, 'Software Architecture', 'Advanced', 101),
+                (105, 'HTML CSS Foundations', 'Beginner', 102);
+
+            INSERT IGNORE INTO app_user (id, name, surname, user_type) VALUES
+                (101, 'Ana', 'Anic', 'CANDIDATE'),
+                (102, 'Nikola', 'Nikolic', 'CANDIDATE'),
+                (103, 'Milan', 'Milic', 'INSTRUCTOR'),
+                (104, 'Ivana', 'Ivanovic', 'INSTRUCTOR');
+
+            INSERT IGNORE INTO candidate (id, age, city_id) VALUES
+                (101, 22, 101),
+                (102, 29, 102);
+
+            INSERT IGNORE INTO instructor (id, years_of_experience, subject_id) VALUES
+                (103, 6, 2),
+                (104, 10, 3);
+
+            INSERT IGNORE INTO user_profile (id, username, password, user_id) VALUES
+                (101, 'ana', 'ana12345', 101),
+                (102, 'nikola', 'nikola123', 102),
+                (103, 'milan', 'milan123', 103),
+                (104, 'ivana', 'ivana123', 104);
+
+            INSERT IGNORE INTO listening_group (id, name, start_date, end_date, course_id, instructor_id) VALUES
+                (101, 'React grupa 1', '2026-07-02 11:00:00', '2026-09-02 11:00:00', 2, 103),
+                (102, 'SQL grupa 1', '2026-07-03 12:00:00', '2026-09-03 12:00:00', 3, 104),
+                (103, 'Spring Boot grupa 1', '2026-07-04 10:00:00', '2026-09-04 10:00:00', 101, 3),
+                (104, 'React Components grupa 1', '2026-07-05 09:00:00', '2026-09-05 09:00:00', 102, 103),
+                (105, 'Advanced SQL grupa 1', '2026-07-06 13:00:00', '2026-09-06 13:00:00', 103, 104),
+                (106, 'Architecture grupa 1', '2026-07-07 17:00:00', '2026-09-07 17:00:00', 104, 3),
+                (107, 'HTML CSS grupa 1', '2026-07-08 18:00:00', '2026-09-08 18:00:00', 105, 103),
+                (108, 'Java grupa 2', '2026-07-09 10:00:00', '2026-09-09 10:00:00', 1, 3),
+                (109, 'React grupa 2', '2026-07-10 11:00:00', '2026-09-10 11:00:00', 2, 103),
+                (110, 'SQL grupa 2', '2026-07-11 12:00:00', '2026-09-11 12:00:00', 3, 104);
+
+            INSERT IGNORE INTO lc (id, id_listening_group, id_candidate) VALUES
+                (101, 101, 1),
+                (102, 102, 2),
+                (103, 103, 101),
+                (104, 104, 102),
+                (105, 105, 1),
+                (106, 106, 101);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

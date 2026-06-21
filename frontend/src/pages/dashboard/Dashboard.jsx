@@ -91,7 +91,7 @@ const Dashboard = ({loggedInUser}) => {
     return(
         <>
             <main className="main-content">
-                <h1 className="app-title">Courses</h1>
+                <h1 className="app-title">Groups</h1>
 
                 {error && <p className="form-error">{error}</p>}
 
@@ -100,7 +100,12 @@ const Dashboard = ({loggedInUser}) => {
                         <article className="course-card" key={group.id}>
                             <div>
                                 <h2>{group.name}</h2>
-                                <p className="course-date">Start: {formatDate(group.startDate)}</p>
+                                <div className="course-meta">
+                                    <p><span>Start</span>{formatDate(group.startDate)}</p>
+                                    <p><span>Course</span>{group.courseName || "No course"}</p>
+                                    <p><span>Level</span>{group.courseLevel || "No level"}</p>
+                                    <p><span>Subject</span>{group.subjectName || "No subject"}</p>
+                                </div>
                             </div>
 
                             {userType === "CANDIDATE" && (

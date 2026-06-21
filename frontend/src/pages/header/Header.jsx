@@ -30,7 +30,7 @@ const Header = ({loggedInUser, onLogout}) =>{
                     {userType === "CANDIDATE" && (
                         <>
                             <Link className="nav-link" to="/my-courses">
-                                My Courses
+                                My Groups
                             </Link>
                             <button className="nav-link nav-button" type="button" onClick={() => setShowLogoutConfirm(true)}>
                                 Logout

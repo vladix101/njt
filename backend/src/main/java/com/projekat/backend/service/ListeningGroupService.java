@@ -20,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,12 +120,16 @@ public class ListeningGroupService {
         }
 
         if (requestDto.getCourseId() != null && requestDto.getStartDate() != null) {
+            LocalDate startDate = requestDto.getStartDate().toLocalDate();
+            LocalDateTime dayStart = startDate.atStartOfDay();
+            LocalDateTime nextDayStart = startDate.plusDays(1).atStartOfDay();
+
             boolean duplicateExists = existingId == null
-                    ? listeningGroupRepository.existsByCourseIdAndStartDate(requestDto.getCourseId(), requestDto.getStartDate())
-                    : listeningGroupRepository.existsByCourseIdAndStartDateAndIdNot(requestDto.getCourseId(), requestDto.getStartDate(), existingId);
+                    ? listeningGroupRepository.existsByCourseIdAndStartDateGreaterThanEqualAndStartDateLessThan(requestDto.getCourseId(), dayStart, nextDayStart)
+                    : listeningGroupRepository.existsByCourseIdAndStartDateGreaterThanEqualAndStartDateLessThanAndIdNot(requestDto.getCourseId(), dayStart, nextDayStart, existingId);
 
             if (duplicateExists) {
-                fieldErrors.put("startDate", "A listening group already exists for this course and start date");
+                fieldErrors.put("startDate", "A listening group already exists for this course on this date");
             }
         }
 
@@ -167,6 +173,7 @@ public class ListeningGroupService {
         Course course = listeningGroup.getCourse();
         Instructor instructor = listeningGroup.getInstructor();
         String instructorName = instructor == null ? null : instructor.getName() + " " + instructor.getSurname();
+        String subjectName = course == null || course.getSubject() == null ? null : course.getSubject().getName();
 
         return new ListeningGroupDto(
                 listeningGroup.getId(),
@@ -175,6 +182,8 @@ public class ListeningGroupService {
                 listeningGroup.getEndDate(),
                 course == null ? null : course.getId(),
                 course == null ? null : course.getName(),
+                course == null ? null : course.getLevel(),
+                subjectName,
                 instructor == null ? null : instructor.getId(),
                 instructorName
         );

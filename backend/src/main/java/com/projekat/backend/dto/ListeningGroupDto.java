@@ -9,6 +9,8 @@ public class ListeningGroupDto {
     private LocalDateTime endDate;
     private Long courseId;
     private String courseName;
+    private String courseLevel;
+    private String subjectName;
     private Long instructorId;
     private String instructorName;
 
@@ -16,13 +18,16 @@ public class ListeningGroupDto {
     }
 
     public ListeningGroupDto(Long id, String name, LocalDateTime startDate, LocalDateTime endDate,
-                             Long courseId, String courseName, Long instructorId, String instructorName) {
+                             Long courseId, String courseName, String courseLevel, String subjectName,
+                             Long instructorId, String instructorName) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.courseId = courseId;
         this.courseName = courseName;
+        this.courseLevel = courseLevel;
+        this.subjectName = subjectName;
         this.instructorId = instructorId;
         this.instructorName = instructorName;
     }
@@ -73,6 +78,22 @@ public class ListeningGroupDto {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getCourseLevel() {
+        return courseLevel;
+    }
+
+    public void setCourseLevel(String courseLevel) {
+        this.courseLevel = courseLevel;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
     public Long getInstructorId() {

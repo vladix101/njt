@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ListeningGroupRepository extends JpaRepository<ListeningGroup, Long> {
     List<ListeningGroup> findByLcsCandidateId(Long candidateId);
-    boolean existsByCourseIdAndStartDate(Long courseId, LocalDateTime startDate);
-    boolean existsByCourseIdAndStartDateAndIdNot(Long courseId, LocalDateTime startDate, Long id);
+    boolean existsByCourseIdAndStartDateGreaterThanEqualAndStartDateLessThan(Long courseId, LocalDateTime dayStart, LocalDateTime nextDayStart);
+    boolean existsByCourseIdAndStartDateGreaterThanEqualAndStartDateLessThanAndIdNot(Long courseId, LocalDateTime dayStart, LocalDateTime nextDayStart, Long id);
 }

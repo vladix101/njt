@@ -91,7 +91,13 @@ const JoinGroup = ({loggedInUser}) => {
     return (
         <main className="main-content">
             <h1 className="app-title">Join Group</h1>
-            {group && <p className="join-group-name">{group.name}</p>}
+            {group && (
+                <section className="purchase-summary" aria-label="Purchase summary">
+                    <h2>{group.name}</h2>
+                    <p><span>Course</span>{group.courseName || "No course"}</p>
+                    <p><span>Subject</span>{group.subjectName || "No subject"}</p>
+                </section>
+            )}
 
             <Form onSubmit={handleSubmit} className="candidate-form">
                 <Form.Group controlId="JoinCandidateName">

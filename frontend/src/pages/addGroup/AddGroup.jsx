@@ -152,9 +152,14 @@ const AddGroup = ({loggedInUser}) => {
 
                 {error && <p className="form-error">{error}</p>}
 
-                <Button variant="primary" type="submit" className="candidate-button">
-                    Save
-                </Button>
+                <div className="form-actions">
+                    <Button variant="secondary" type="button" onClick={() => navigate(-1)}>
+                        Back
+                    </Button>
+                    <Button variant="primary" type="submit">
+                        Save
+                    </Button>
+                </div>
             </Form>
         </main>
     )

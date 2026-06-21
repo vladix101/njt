@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Button} from "react-bootstrap";
+import {useNavigate, useParams} from "react-router-dom";
 
 const GroupDetails = () => {
+    const navigate = useNavigate()
     const {groupId} = useParams()
     const [details, setDetails] = useState(null)
     const [error, setError] = useState("")
@@ -36,12 +38,17 @@ const GroupDetails = () => {
     return (
         <main className="main-content">
             <h1 className="app-title">Group Details</h1>
+            <Button variant="secondary" type="button" className="back-button" onClick={() => navigate(-1)}>
+                Back
+            </Button>
             {error && <p className="form-error">{error}</p>}
 
             {group && (
                 <section className="details-panel">
                     <h2>{group.name}</h2>
                     <p>Course: {group.courseName || "No course"}</p>
+                    <p>Level: {group.courseLevel || "No level"}</p>
+                    <p>Subject: {group.subjectName || "No subject"}</p>
                     <p>Instructor: {group.instructorName || "No instructor"}</p>
                     <p>Start: {formatDate(group.startDate)}</p>
                     <p>End: {formatDate(group.endDate)}</p>

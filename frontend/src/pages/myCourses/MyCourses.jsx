@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
+import {Button} from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 
 const MyCourses = ({loggedInUser}) => {
+    const navigate = useNavigate()
     const [listeningGroups, setListeningGroups] = useState([])
     const [error, setError] = useState("")
 
@@ -36,7 +39,10 @@ const MyCourses = ({loggedInUser}) => {
 
     return (
         <main className="main-content">
-            <h1 className="app-title">My Courses</h1>
+            <h1 className="app-title">My Groups</h1>
+            <Button variant="secondary" type="button" className="back-button" onClick={() => navigate("/")}>
+                Back
+            </Button>
             {error && <p className="form-error">{error}</p>}
 
             <section className="course-grid" aria-label="My courses">
@@ -44,7 +50,12 @@ const MyCourses = ({loggedInUser}) => {
                     <article className="course-card" key={group.id}>
                         <div>
                             <h2>{group.name}</h2>
-                            <p className="course-date">Start: {formatDate(group.startDate)}</p>
+                            <div className="course-meta">
+                                <p><span>Start</span>{formatDate(group.startDate)}</p>
+                                <p><span>Course</span>{group.courseName || "No course"}</p>
+                                <p><span>Level</span>{group.courseLevel || "No level"}</p>
+                                <p><span>Subject</span>{group.subjectName || "No subject"}</p>
+                            </div>
                         </div>
                     </article>
                 ))}
