@@ -1,35 +1,58 @@
 .custom-navbar {
-    margin: 24px auto;
-    width: 88%;
-    border-radius: 22px;
-    padding: 14px 0;
-    background: linear-gradient(135deg, #111827, #1d4ed8, #7c3aed);
-    box-shadow: 0 20px 45px rgba(29, 78, 216, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    position: sticky;
+    top: 18px;
+    z-index: 10;
+    width: min(92%, 1180px);
+    margin: 18px auto 0;
+    padding: 13px 0;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(30, 64, 175, 0.92), rgba(13, 148, 136, 0.92));
+    box-shadow: 0 20px 54px rgba(15, 23, 42, 0.24);
+    backdrop-filter: blur(18px);
 }
 
 .brand-logo {
-    color: white !important;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: 0.4px;
+    color: #ffffff !important;
+    font-size: 25px;
+    font-weight: 950;
+    letter-spacing: 0;
     text-decoration: none;
+}
+
+.brand-logo::after {
+    content: "";
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-left: 9px;
+    border-radius: 999px;
+    background: #f97316;
+    box-shadow: 0 0 0 5px rgba(249, 115, 22, 0.18);
+    vertical-align: middle;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .nav-links .nav-link {
-    border: none;
-    color: rgba(255, 255, 255, 0.88) !important;
-    font-size: 17px;
-    font-weight: 600;
-    padding: 10px 18px !important;
-    border-radius: 999px;
-    transition: 0.25s ease;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.92) !important;
+    font-size: 14px;
+    font-weight: 850;
+    padding: 9px 16px !important;
+    text-decoration: none;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .nav-button {
@@ -37,13 +60,14 @@
 }
 
 .nav-links .nav-link:hover {
-    color: white !important;
-    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.34);
     transform: translateY(-2px);
 }
 
 .nav-links .nav-link:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
 }
 
 .logout-modal-backdrop {
@@ -53,23 +77,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(15, 23, 42, 0.48);
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.56);
+    backdrop-filter: blur(7px);
 }
 
 .logout-modal {
-    width: min(90vw, 390px);
-    padding: 24px;
+    width: min(92vw, 410px);
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.48);
     border-radius: 8px;
-    background: #ffffff;
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.32);
     text-align: center;
 }
 
 .logout-modal h2 {
-    margin: 0 0 20px;
-    color: #111827;
+    margin: 0 0 22px;
+    color: #14213d;
     font-size: 22px;
-    font-weight: 900;
+    line-height: 1.25;
+    font-weight: 950;
 }
 
 .logout-modal-actions {
@@ -79,15 +107,39 @@
 }
 
 .logout-modal-actions button {
-    min-width: 88px;
-    min-height: 40px;
+    min-width: 92px;
+    min-height: 42px;
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     color: #ffffff;
-    background: #2563eb;
-    font-weight: 800;
+    background: linear-gradient(135deg, #0d9488, #2563eb);
+    font-weight: 900;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.logout-modal-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.28);
+    filter: saturate(1.08);
 }
 
 .logout-modal-actions button:last-child {
-    background: #64748b;
+    background: linear-gradient(135deg, #64748b, #334155);
+}
+
+@media (max-width: 700px) {
+    .custom-navbar {
+        top: 10px;
+        width: calc(100% - 24px);
+    }
+
+    .custom-navbar .container {
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+    }
 }
