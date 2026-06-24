@@ -10,4 +10,6 @@
     <include file="db/changelog/changes/003-unique-user-profile-username.xml"/>
     <include file="db/changelog/changes/004-extend-seed-data.xml"/>
     <include file="db/changelog/changes/005-drop-email-verified-from-user-profile.xml"/>
+    <include file="db/changelog/changes/006-add-email-to-user-profile.xml"/>
+    <include file="db/changelog/changes/007-fill-seed-user-profile-emails.xml"/>
 </databaseChangeLog>

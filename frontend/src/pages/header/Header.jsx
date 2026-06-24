@@ -5,6 +5,7 @@ import './Header.css'
 const Header = ({loggedInUser, onLogout}) =>{
     const navigate = useNavigate()
     const userType = loggedInUser?.userType
+    const displayName = loggedInUser ? `${loggedInUser.name ?? ""} ${loggedInUser.surname ?? ""}`.trim() : ""
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
     const handleLogout = () => {
@@ -25,6 +26,15 @@ const Header = ({loggedInUser, onLogout}) =>{
                         <Link className="nav-link" to="/login">
                             Login
                         </Link>
+                    )}
+
+                    {loggedInUser && (
+                        <div className="user-summary" aria-label="Logged in user">
+                            <span className="user-icon" aria-hidden="true">
+                                {displayName.charAt(0) || loggedInUser.username?.charAt(0) || "U"}
+                            </span>
+                            <span className="user-name">{displayName || loggedInUser.username}</span>
+                        </div>
                     )}
 
                     {userType === "CANDIDATE" && (

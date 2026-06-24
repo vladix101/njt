@@ -40,6 +40,44 @@
     flex-wrap: wrap;
 }
 
+.user-summary {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 13px 7px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.13);
+    color: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.user-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #f97316, #0ea5e9);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 950;
+    text-transform: uppercase;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.24);
+}
+
+.user-name {
+    max-width: 190px;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.96);
+    font-size: 14px;
+    font-weight: 900;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .nav-links .nav-link {
     min-height: 42px;
     display: inline-flex;

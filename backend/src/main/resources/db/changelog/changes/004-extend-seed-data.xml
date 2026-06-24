@@ -47,11 +47,11 @@
                 (103, 6, 2),
                 (104, 10, 3);
 
-            INSERT IGNORE INTO user_profile (id, username, password, user_id) VALUES
-                (101, 'ana', 'ana12345', 101),
-                (102, 'nikola', 'nikola123', 102),
-                (103, 'milan', 'milan123', 103),
-                (104, 'ivana', 'ivana123', 104);
+            INSERT IGNORE INTO user_profile (id, username, password, email, user_id) VALUES
+                (101, 'ana', 'ana12345', 'ana.anic@example.com', 101),
+                (102, 'nikola', 'nikola123', 'nikola.nikolic@example.com', 102),
+                (103, 'milan', 'milan123', 'milan.milic@example.com', 103),
+                (104, 'ivana', 'ivana123', 'ivana.ivanovic@example.com', 104);
 
             INSERT IGNORE INTO listening_group (id, name, start_date, end_date, course_id, instructor_id) VALUES
                 (101, 'React grupa 1', '2026-07-02 11:00:00', '2026-09-02 11:00:00', 2, 103),

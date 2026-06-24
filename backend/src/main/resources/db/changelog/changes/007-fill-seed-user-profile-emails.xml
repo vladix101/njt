@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="007-fill-seed-user-profile-emails" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="user_profile"/>
+            <columnExists tableName="user_profile" columnName="email"/>
+        </preConditions>
+        <sql splitStatements="true" stripComments="true">
+            UPDATE user_profile SET email = 'marko.markovic@example.com'
+            WHERE username = 'marko' AND (email IS NULL OR email = '');
+
+            UPDATE user_profile SET email = 'jelena.jovanovic@example.com'
+            WHERE username = 'jelena' AND (email IS NULL OR email = '');
+
+            UPDATE user_profile SET email = 'petar.petrovic@example.com'
+            WHERE username = 'petar' AND (email IS NULL OR email = '');
+
+            UPDATE user_profile SET email = 'ana.anic@example.com'
+            WHERE username = 'ana' AND (email IS NULL OR email = '');
+
+            UPDATE user_profile SET email = 'nikola.nikolic@example.com'
+            WHERE username = 'nikola' AND (email IS NULL OR email = '');
+
+            UPDATE user_profile SET email = 'milan.milic@example.com'
+            WHERE username = 'milan' AND (email IS NULL OR email = '');
+
+            UPDATE user_profile SET email = 'ivana.ivanovic@example.com'
+            WHERE username = 'ivana' AND (email IS NULL OR email = '');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

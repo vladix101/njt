@@ -138,7 +138,7 @@ public class UserService {
             city = cityRepository.getReferenceById(candidateDto.getCityId());
         }
 
-        UserProfile userProfile = new UserProfile(null, candidateDto.getUsername(), candidateDto.getPassword());
+        UserProfile userProfile = new UserProfile(null, candidateDto.getUsername(), candidateDto.getPassword(), candidateDto.getEmail());
         Candidate candidate = new Candidate(null, candidateDto.getName(), candidateDto.getSurname(),
                 candidateDto.getAge(), city, userProfile);
 
@@ -153,7 +153,7 @@ public class UserService {
             subject = subjectRepository.getReferenceById(instructorDto.getSubjectId());
         }
 
-        UserProfile userProfile = new UserProfile(null, instructorDto.getUsername(), instructorDto.getPassword());
+        UserProfile userProfile = new UserProfile(null, instructorDto.getUsername(), instructorDto.getPassword(), instructorDto.getEmail());
         Instructor instructor = new Instructor();
         instructor.setName(instructorDto.getName());
         instructor.setSurname(instructorDto.getSurname());

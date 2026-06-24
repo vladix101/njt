@@ -16,6 +16,7 @@ public class UserProfile {
     private Long id;
     private String username;
     private String password;
+    private String email;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -24,9 +25,10 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(Long id, String username, String password) {
+    public UserProfile(Long id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 }

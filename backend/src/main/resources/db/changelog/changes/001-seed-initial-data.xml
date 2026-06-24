@@ -48,10 +48,10 @@
             INSERT IGNORE INTO instructor (id, years_of_experience, subject_id) VALUES
                 (3, 8, 1);
 
-            INSERT IGNORE INTO user_profile (id, username, password, user_id) VALUES
-                (1, 'marko', 'marko123', 1),
-                (2, 'jelena', 'jelena123', 2),
-                (3, 'petar', 'petar123', 3);
+            INSERT IGNORE INTO user_profile (id, username, password, email, user_id) VALUES
+                (1, 'marko', 'marko123', 'marko.markovic@example.com', 1),
+                (2, 'jelena', 'jelena123', 'jelena.jovanovic@example.com', 2),
+                (3, 'petar', 'petar123', 'petar.petrovic@example.com', 3);
 
             INSERT IGNORE INTO listening_group (id, name, start_date, end_date, course_id, instructor_id) VALUES
                 (1, 'Java grupa 1', '2026-07-01 10:00:00', '2026-09-01 10:00:00', 1, 3);
