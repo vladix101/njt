@@ -1,9 +1,11 @@
 import {useState} from "react";
 import {Button, Form} from "react-bootstrap";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 const Login = ({onLogin}) => {
     const navigate = useNavigate()
+    const location = useLocation()
+    const successMessage = location.state?.successMessage
     const [formData, setFormData] = useState({
         username: "",
         password: ""
@@ -75,6 +77,7 @@ const Login = ({onLogin}) => {
                     Don't have an account? <Link to="/register">Register</Link>
                 </p>
             </Form>
+            {successMessage && <p className="registration-success-message">{successMessage}</p>}
         </main>
     )
 }

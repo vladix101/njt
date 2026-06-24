@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useLocation, useNavigate} from "react-router-dom";
+import EmailVerificationModal from "./EmailVerificationModal.jsx";
 
 const CandidateRegistration = () => {
     const navigate = useNavigate()
@@ -10,6 +11,7 @@ const CandidateRegistration = () => {
     const [formData, setFormData] = useState({
         name: "",
         surname: "",
+        email: "",
         username: "",
         password: "",
         age: "",
@@ -17,6 +19,12 @@ const CandidateRegistration = () => {
     })
     const [cities, setCities] = useState([])
     const [fieldErrors, setFieldErrors] = useState({})
+    const [pendingRegistrationData, setPendingRegistrationData] = useState(null)
+    const [isVerificationOpen, setIsVerificationOpen] = useState(false)
+    const [verificationError, setVerificationError] = useState("")
+    const [verificationSuccess, setVerificationSuccess] = useState("")
+    const [isVerificationLoading, setIsVerificationLoading] = useState(false)
+    const [isRegistrationLoading, setIsRegistrationLoading] = useState(false)
 
     useEffect(() => {
         const fetchCities = async () => {
@@ -49,11 +57,18 @@ const CandidateRegistration = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        if (isRegistrationLoading) {
+            return
+        }
+
         setFieldErrors({})
 
         const validationErrors = {}
         if (formData.password.length <= 6) {
             validationErrors.password = "Password must have more than 6 characters"
+        }
+        if (!formData.email.trim()) {
+            validationErrors.email = "Email is required"
         }
 
         if (Object.keys(validationErrors).length > 0) {
@@ -66,6 +81,8 @@ const CandidateRegistration = () => {
             age: formData.age === "" ? null : Number(formData.age),
             cityId: formData.cityId === "" ? null : Number(formData.cityId)
         }
+
+        setIsRegistrationLoading(true)
 
         try {
             const response = await fetch("http://localhost:8080/api/register/candidate", {
@@ -80,10 +97,94 @@ const CandidateRegistration = () => {
                 return
             }
 
-            navigate("/")
+            setPendingRegistrationData(dataToSend)
+            setVerificationError("")
+            setVerificationSuccess("")
+            setIsVerificationOpen(true)
         } catch (error) {
             console.error("Error registering candidate:", error.message)
+        } finally {
+            setIsRegistrationLoading(false)
         }
+    }
+
+    const handleConfirmVerification = async (code) => {
+        if (!pendingRegistrationData) {
+            setVerificationError("Registration data is missing")
+            return
+        }
+
+        setIsVerificationLoading(true)
+        setVerificationError("")
+        setVerificationSuccess("")
+
+        try {
+            const response = await fetch("http://localhost:8080/api/register/candidate/verify", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    candidate: pendingRegistrationData,
+                    email: pendingRegistrationData.email,
+                    code
+                })
+            })
+
+            if (!response.ok) {
+                setVerificationError(await getErrorMessage(response, "Email verification failed"))
+                return
+            }
+
+            setVerificationSuccess("Email verified successfully")
+            navigate("/login", {state: {successMessage: "Registered successfully"}})
+        } catch (error) {
+            setVerificationError("Email verification failed")
+            console.error("Error verifying candidate email:", error.message)
+        } finally {
+            setIsVerificationLoading(false)
+        }
+    }
+
+    const handleResendVerificationCode = async () => {
+        setIsVerificationLoading(true)
+        setVerificationError("")
+        setVerificationSuccess("")
+
+        try {
+            const response = await fetch("http://localhost:8080/api/auth/resend-verification-code", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({email: pendingRegistrationData?.email ?? formData.email})
+            })
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => null)
+                const errors = errorData?.fieldErrors ?? {}
+                setVerificationError(errors.email ?? errors.form ?? "Verification code could not be resent")
+                return false
+            }
+
+            setVerificationSuccess("New verification code was sent")
+            return true
+        } catch (error) {
+            setVerificationError("Verification code could not be resent")
+            console.error("Error resending verification code:", error.message)
+            return false
+        } finally {
+            setIsVerificationLoading(false)
+        }
+    }
+
+    const getErrorMessage = async (response, fallbackMessage) => {
+        const errorData = await response.clone().json().catch(() => null)
+        const errors = errorData?.fieldErrors ?? {}
+        const firstError = Object.values(errors)[0]
+
+        if (errors.code || errors.email || errors.form || firstError || errorData?.message) {
+            return errors.code ?? errors.email ?? errors.form ?? firstError ?? errorData.message
+        }
+
+        const text = await response.text().catch(() => "")
+        return text || fallbackMessage
     }
 
     return (
@@ -100,6 +201,12 @@ const CandidateRegistration = () => {
                 <Form.Group controlId="CandidateSurname">
                     <Form.Label>Surname:</Form.Label>
                     <Form.Control type="text" name="surname" value={formData.surname} onChange={handleInputChange} />
+                </Form.Group>
+
+                <Form.Group controlId="CandidateEmail">
+                    <Form.Label>Email:</Form.Label>
+                    <Form.Control type="email" name="email" value={formData.email} onChange={handleInputChange} />
+                    {fieldErrors.email && <p className="field-error">{fieldErrors.email}</p>}
                 </Form.Group>
 
                 <Form.Group controlId="CandidateUsername">
@@ -131,8 +238,21 @@ const CandidateRegistration = () => {
 
                 {fieldErrors.form && <p className="form-error">{fieldErrors.form}</p>}
 
-                <Button variant="primary" type="submit" className="candidate-button">Register</Button>
+                <Button variant="primary" type="submit" className="candidate-button" disabled={isRegistrationLoading}>
+                    Register
+                </Button>
             </Form>
+            {isVerificationOpen && (
+                <EmailVerificationModal
+                    email={pendingRegistrationData?.email ?? formData.email}
+                    isLoading={isVerificationLoading}
+                    error={verificationError}
+                    successMessage={verificationSuccess}
+                    onConfirm={handleConfirmVerification}
+                    onResend={handleResendVerificationCode}
+                    onCancel={() => setIsVerificationOpen(false)}
+                />
+            )}
         </main>
     )
 }

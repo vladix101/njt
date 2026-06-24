@@ -3,6 +3,7 @@ package com.projekat.backend.dto;
 public class InstructorDto {
     private String name;
     private String surname;
+    private String email;
     private String username;
     private String password;
     private Integer yearsOfExperience;
@@ -22,6 +23,14 @@ public class InstructorDto {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {

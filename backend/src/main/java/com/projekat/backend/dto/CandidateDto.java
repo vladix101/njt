@@ -3,6 +3,7 @@ package com.projekat.backend.dto;
 public class CandidateDto {
     private String name;
     private String surname;
+    private String email;
     private String username;
     private String password;
     private Integer age;
@@ -11,9 +12,10 @@ public class CandidateDto {
     public CandidateDto() {
     }
 
-    public CandidateDto(String name, String surname, String username, String password, Integer age, Long cityId) {
+    public CandidateDto(String name, String surname, String email, String username, String password, Integer age, Long cityId) {
         this.name = name;
         this.surname = surname;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.age = age;
@@ -34,6 +36,14 @@ public class CandidateDto {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
