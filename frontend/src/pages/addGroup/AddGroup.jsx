@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const AddGroup = ({loggedInUser}) => {
     const navigate = useNavigate()
@@ -18,7 +19,7 @@ const AddGroup = ({loggedInUser}) => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/courses")
+                const response = await fetch(apiUrl("/api/courses"))
                 if (!response.ok) {
                     return
                 }
@@ -38,7 +39,7 @@ const AddGroup = ({loggedInUser}) => {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/api/listening-groups/${groupId}`)
+                const response = await fetch(apiUrl(`/api/listening-groups/${groupId}`))
                 if (!response.ok) {
                     setError("Listening group could not be fetched")
                     return
@@ -96,7 +97,7 @@ const AddGroup = ({loggedInUser}) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/api/listening-groups${groupId ? `/${groupId}` : ""}`, {
+            const response = await fetch(apiUrl(`/api/listening-groups${groupId ? `/${groupId}` : ""}`), {
                 method: groupId ? "PUT" : "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(dataToSend)

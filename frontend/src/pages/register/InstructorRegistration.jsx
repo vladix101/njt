@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useLocation, useNavigate} from "react-router-dom";
 import EmailVerificationModal from "./EmailVerificationModal.jsx";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const InstructorRegistration = () => {
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ const InstructorRegistration = () => {
     useEffect(() => {
         const fetchSubjects = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/subjects")
+                const response = await fetch(apiUrl("/api/subjects"))
                 if (!response.ok) {
                     console.error("Subjects could not be fetched")
                     return
@@ -85,7 +86,7 @@ const InstructorRegistration = () => {
         setIsRegistrationLoading(true)
 
         try {
-            const response = await fetch("http://localhost:8080/api/register/instructor", {
+            const response = await fetch(apiUrl("/api/register/instructor"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(dataToSend)
@@ -119,7 +120,7 @@ const InstructorRegistration = () => {
         setVerificationSuccess("")
 
         try {
-            const response = await fetch("http://localhost:8080/api/register/instructor/verify", {
+            const response = await fetch(apiUrl("/api/register/instructor/verify"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -150,7 +151,7 @@ const InstructorRegistration = () => {
         setVerificationSuccess("")
 
         try {
-            const response = await fetch("http://localhost:8080/api/auth/resend-verification-code", {
+            const response = await fetch(apiUrl("/api/auth/resend-verification-code"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({email: pendingRegistrationData?.email ?? formData.email})

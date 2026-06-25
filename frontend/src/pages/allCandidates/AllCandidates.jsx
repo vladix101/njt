@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const AllCandidates = () => {
     const navigate = useNavigate()
@@ -15,7 +16,7 @@ const AllCandidates = () => {
     useEffect(() => {
         const fetchCandidates = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/candidates/with-listening-groups")
+                const response = await fetch(apiUrl("/api/candidates/with-listening-groups"))
                 if (!response.ok) {
                     setError("Candidates could not be fetched")
                     return

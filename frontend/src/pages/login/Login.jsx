@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const Login = ({onLogin}) => {
     const navigate = useNavigate()
@@ -25,7 +26,7 @@ const Login = ({onLogin}) => {
         setError("")
 
         try {
-            const response = await fetch("http://localhost:8080/api/login", {
+            const response = await fetch(apiUrl("/api/login"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(formData)

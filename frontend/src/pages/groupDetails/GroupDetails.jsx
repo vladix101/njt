@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
 import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from "recharts";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const GroupDetails = () => {
     const navigate = useNavigate()
@@ -12,7 +13,7 @@ const GroupDetails = () => {
     useEffect(() => {
         const fetchDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/listening-groups/${groupId}/details`)
+                const response = await fetch(apiUrl(`/api/listening-groups/${groupId}/details`))
                 if (!response.ok) {
                     setError("Listening group details could not be fetched")
                     return

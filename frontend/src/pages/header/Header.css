@@ -169,15 +169,54 @@
     .custom-navbar {
         top: 10px;
         width: calc(100% - 24px);
+        padding: 12px 0;
     }
 
     .custom-navbar .container {
         gap: 12px;
         align-items: flex-start;
+        flex-direction: column;
     }
 
     .nav-links {
         width: 100%;
-        justify-content: flex-start;
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: stretch;
+        gap: 8px;
+        margin-left: 0 !important;
+    }
+
+    .brand-logo {
+        font-size: 23px;
+    }
+
+    .user-summary,
+    .nav-links .nav-link {
+        width: 100%;
+        min-height: 46px;
+        justify-content: center;
+    }
+
+    .user-summary {
+        padding: 8px 12px;
+    }
+
+    .user-name {
+        max-width: min(260px, 70vw);
+    }
+
+    .logout-modal {
+        width: min(100%, 380px);
+        padding: 24px 18px;
+    }
+
+    .logout-modal-actions {
+        flex-direction: column;
+    }
+
+    .logout-modal-actions button {
+        width: 100%;
+        min-height: 46px;
     }
 }

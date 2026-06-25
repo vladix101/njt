@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const JoinGroup = ({loggedInUser}) => {
     const navigate = useNavigate()
@@ -16,7 +17,7 @@ const JoinGroup = ({loggedInUser}) => {
     useEffect(() => {
         const fetchGroup = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/listening-groups/${groupId}`)
+                const response = await fetch(apiUrl(`/api/listening-groups/${groupId}`))
                 if (!response.ok) {
                     setError("Listening group could not be fetched")
                     return
@@ -72,7 +73,7 @@ const JoinGroup = ({loggedInUser}) => {
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/candidates/${loggedInUser.userId}/listening-groups/${groupId}/join`,
+                apiUrl(`/api/candidates/${loggedInUser.userId}/listening-groups/${groupId}/join`),
                 {method: "POST"}
             )
 

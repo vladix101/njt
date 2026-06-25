@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useLocation, useNavigate} from "react-router-dom";
 import EmailVerificationModal from "./EmailVerificationModal.jsx";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const CandidateRegistration = () => {
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ const CandidateRegistration = () => {
     useEffect(() => {
         const fetchCities = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/cities")
+                const response = await fetch(apiUrl("/api/cities"))
                 if (!response.ok) {
                     console.error("Cities could not be fetched")
                     return
@@ -85,7 +86,7 @@ const CandidateRegistration = () => {
         setIsRegistrationLoading(true)
 
         try {
-            const response = await fetch("http://localhost:8080/api/register/candidate", {
+            const response = await fetch(apiUrl("/api/register/candidate"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(dataToSend)
@@ -119,7 +120,7 @@ const CandidateRegistration = () => {
         setVerificationSuccess("")
 
         try {
-            const response = await fetch("http://localhost:8080/api/register/candidate/verify", {
+            const response = await fetch(apiUrl("/api/register/candidate/verify"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -150,7 +151,7 @@ const CandidateRegistration = () => {
         setVerificationSuccess("")
 
         try {
-            const response = await fetch("http://localhost:8080/api/auth/resend-verification-code", {
+            const response = await fetch(apiUrl("/api/auth/resend-verification-code"), {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({email: pendingRegistrationData?.email ?? formData.email})

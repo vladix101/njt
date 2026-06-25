@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
+import {apiUrl} from "../../api/apiConfig.js";
 
 const MyCourses = ({loggedInUser}) => {
     const navigate = useNavigate()
@@ -15,7 +16,7 @@ const MyCourses = ({loggedInUser}) => {
             }
 
             try {
-                const response = await fetch(`http://localhost:8080/api/candidates/${loggedInUser.userId}/listening-groups`)
+                const response = await fetch(apiUrl(`/api/candidates/${loggedInUser.userId}/listening-groups`))
                 if (!response.ok) {
                     setError("Courses could not be fetched")
                     return
@@ -38,7 +39,7 @@ const MyCourses = ({loggedInUser}) => {
     }
 
     const confirmationUrl = (groupId) => (
-        `http://localhost:8080/api/candidates/${loggedInUser.userId}/listening-groups/${groupId}/confirmation`
+        apiUrl(`/api/candidates/${loggedInUser.userId}/listening-groups/${groupId}/confirmation`)
     )
 
     return (
