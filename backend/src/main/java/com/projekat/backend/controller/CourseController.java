@@ -22,7 +22,7 @@ public class CourseController {
     public List<CourseDto> getCourses() {
         return courseRepository.findAll()
                 .stream()
-                .map(course -> new CourseDto(course.getId(), course.getName(), course.getLevel()))
+                .map(course -> new CourseDto(course.getId(), course.getName(), course.getLevel(), course.getDescription()))
                 .toList();
     }
 }

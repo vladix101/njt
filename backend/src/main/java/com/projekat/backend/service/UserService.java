@@ -21,11 +21,14 @@ import com.projekat.backend.repository.InstructorRepository;
 import com.projekat.backend.repository.SubjectRepository;
 import com.projekat.backend.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -91,6 +94,7 @@ public class UserService {
         validateVerificationCode(verificationEmail, verificationDto.getCode());
 
         Candidate candidate = registerCandidate(candidateDto);
+        sendRegistrationConfirmationEmail(verificationEmail);
         removeVerificationCode(verificationEmail);
         pendingCandidateRegistrations.remove(normalizeEmail(verificationEmail));
         return candidate;
@@ -110,6 +114,7 @@ public class UserService {
         validateVerificationCode(verificationEmail, verificationDto.getCode());
 
         Instructor instructor = registerInstructor(instructorDto);
+        sendRegistrationConfirmationEmail(verificationEmail);
         removeVerificationCode(verificationEmail);
         pendingInstructorRegistrations.remove(normalizeEmail(verificationEmail));
         return instructor;
@@ -217,6 +222,26 @@ public class UserService {
             storeVerificationCode(normalizedEmail, code, expiresAt);
         } catch (MailException exception) {
             throwValidationError("form", "Verification email could not be sent. Check mail configuration.");
+        }
+    }
+
+    private void sendRegistrationConfirmationEmail(String email) {
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+            helper.setFrom(mailSenderAddress);
+            helper.setTo(email);
+            helper.setSubject("Your account was successfully created");
+            helper.setText("""
+                    <div style="font-family: Arial, sans-serif; color: #1e293b; line-height: 1.6; padding: 20px;">
+                        <h2 style="color: #14213d; margin: 0 0 12px;">Your account was successfully created.</h2>
+                        <p style="margin: 0;">Welcome to our learning platform. You can now log in, explore available listening groups, and start learning with us.</p>
+                    </div>
+                    """, true);
+            javaMailSender.send(message);
+        } catch (MessagingException | MailException exception) {
+            // Account creation has already succeeded; confirmation email failure must not undo registration.
         }
     }
 

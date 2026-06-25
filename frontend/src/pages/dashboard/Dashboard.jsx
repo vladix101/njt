@@ -88,6 +88,10 @@ const Dashboard = ({loggedInUser}) => {
         }
     }
 
+    const confirmationUrl = (groupId) => (
+        `http://localhost:8080/api/candidates/${loggedInUser.userId}/listening-groups/${groupId}/confirmation`
+    )
+
     return(
         <>
             <main className="main-content">
@@ -99,7 +103,15 @@ const Dashboard = ({loggedInUser}) => {
                     {listeningGroups.map((group) => (
                         <article className="course-card" key={group.id}>
                             <div>
-                                <h2>{group.name}</h2>
+                                <div className="course-card-header">
+                                    <h2>{group.name}</h2>
+                                    <button className="course-info-button" type="button" aria-label="Course description">
+                                        i
+                                        <span className="course-info-tooltip" role="tooltip">
+                                            {group.courseDescription || "No course description available."}
+                                        </span>
+                                    </button>
+                                </div>
                                 <div className="course-meta">
                                     <p><span>Start</span>{formatDate(group.startDate)}</p>
                                     <p><span>Course</span>{group.courseName || "No course"}</p>
@@ -111,7 +123,12 @@ const Dashboard = ({loggedInUser}) => {
                             {userType === "CANDIDATE" && (
                                 <div className="course-actions">
                                     {joinedGroupIds.includes(group.id) ? (
-                                        <span className="purchased-label">Kupljeno</span>
+                                        <>
+                                            <span className="purchased-label">Purchased</span>
+                                            <a className="confirmation-link" href={confirmationUrl(group.id)} download>
+                                                View Confirmation
+                                            </a>
+                                        </>
                                     ) : (
                                         <button className="course-register-button" type="button" onClick={() => handleJoin(group)}>
                                             JOIN

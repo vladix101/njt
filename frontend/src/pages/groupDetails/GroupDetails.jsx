@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router-dom";
+import {Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from "recharts";
 
 const GroupDetails = () => {
     const navigate = useNavigate()
@@ -34,6 +35,13 @@ const GroupDetails = () => {
     }
 
     const group = details?.listeningGroup
+    const joinedCount = details?.candidates?.length ?? 0
+    const otherCandidatesCount = Math.max((details?.totalCandidates ?? 0) - joinedCount, 0)
+    const candidateChartData = [
+        {name: "Joined this group", value: joinedCount},
+        {name: "Other candidates", value: otherCandidatesCount}
+    ]
+    const chartColors = ["#16a34a", "#2563eb"]
 
     return (
         <main className="main-content">
@@ -62,6 +70,36 @@ const GroupDetails = () => {
                                 <span>{candidate.username || "No username"}</span>
                             </article>
                         ))}
+                    </div>
+
+                    <div className="candidate-chart-panel">
+                        <h3>Candidate Distribution</h3>
+                        <div className="candidate-chart-summary">
+                            <span><strong>{joinedCount}</strong> Joined this group</span>
+                            <span><strong>{otherCandidatesCount}</strong> Other candidates</span>
+                        </div>
+                        <div className="candidate-chart">
+                            <ResponsiveContainer width="100%" height={260}>
+                                <PieChart>
+                                    <Pie
+                                        data={candidateChartData}
+                                        dataKey="value"
+                                        nameKey="name"
+                                        cx="50%"
+                                        cy="50%"
+                                        innerRadius={54}
+                                        outerRadius={86}
+                                        paddingAngle={3}
+                                    >
+                                        {candidateChartData.map((entry, index) => (
+                                            <Cell key={entry.name} fill={chartColors[index]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip />
+                                    <Legend />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                 </section>
             )}

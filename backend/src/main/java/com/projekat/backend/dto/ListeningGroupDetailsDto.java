@@ -5,13 +5,15 @@ import java.util.List;
 public class ListeningGroupDetailsDto {
     private ListeningGroupDto listeningGroup;
     private List<CandidateSummaryDto> candidates;
+    private long totalCandidates;
 
     public ListeningGroupDetailsDto() {
     }
 
-    public ListeningGroupDetailsDto(ListeningGroupDto listeningGroup, List<CandidateSummaryDto> candidates) {
+    public ListeningGroupDetailsDto(ListeningGroupDto listeningGroup, List<CandidateSummaryDto> candidates, long totalCandidates) {
         this.listeningGroup = listeningGroup;
         this.candidates = candidates;
+        this.totalCandidates = totalCandidates;
     }
 
     public ListeningGroupDto getListeningGroup() {
@@ -28,5 +30,13 @@ public class ListeningGroupDetailsDto {
 
     public void setCandidates(List<CandidateSummaryDto> candidates) {
         this.candidates = candidates;
+    }
+
+    public long getTotalCandidates() {
+        return totalCandidates;
+    }
+
+    public void setTotalCandidates(long totalCandidates) {
+        this.totalCandidates = totalCandidates;
     }
 }

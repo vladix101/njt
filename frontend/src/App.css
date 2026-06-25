@@ -183,6 +183,61 @@
   line-height: 1.18;
 }
 
+.course-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.course-info-button {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 950;
+  line-height: 1;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.12);
+}
+
+.course-info-button:hover,
+.course-info-button:focus-visible {
+  border-color: rgba(13, 148, 136, 0.42);
+  color: var(--teal);
+}
+
+.course-info-tooltip {
+  width: min(260px, 70vw);
+  position: absolute;
+  right: 0;
+  top: 38px;
+  z-index: 5;
+  display: none;
+  padding: 12px 14px;
+  border: 1px solid rgba(20, 33, 61, 0.10);
+  border-radius: var(--radius);
+  background: #ffffff;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: var(--shadow-md);
+}
+
+.course-info-button:hover .course-info-tooltip,
+.course-info-button:focus-visible .course-info-tooltip {
+  display: block;
+}
+
 .course-meta {
   display: grid;
   gap: 10px;
@@ -279,6 +334,21 @@
   font-size: 14px;
   font-weight: 950;
   box-shadow: 0 10px 22px rgba(22, 163, 74, 0.12);
+}
+
+.confirmation-link {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.confirmation-link:hover {
+  color: var(--teal);
+  text-decoration: underline;
 }
 
 .candidate-form {
@@ -597,6 +667,47 @@
   border-top: 1px solid rgba(20, 33, 61, 0.08);
   color: var(--navy);
   font-weight: 800;
+}
+
+.candidate-chart-panel {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(20, 33, 61, 0.08);
+}
+
+.candidate-chart-panel h3 {
+  margin: 0 0 12px;
+  color: var(--navy);
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.candidate-chart-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.candidate-chart-summary span {
+  display: inline-flex;
+  gap: 6px;
+  padding: 8px 11px;
+  border: 1px solid rgba(37, 99, 235, 0.10);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #f8fafc, #ffffff);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.candidate-chart-summary strong {
+  color: var(--navy);
+}
+
+.candidate-chart {
+  width: 100%;
+  min-height: 260px;
 }
 
 .verification-modal-backdrop {

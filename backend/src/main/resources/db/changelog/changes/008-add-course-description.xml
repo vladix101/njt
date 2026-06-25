@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="008-add-course-description-column" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="course"/>
+            <not>
+                <columnExists tableName="course" columnName="description"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="course">
+            <column name="description" type="varchar(1000)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="008-fill-course-descriptions" author="codex">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="course"/>
+            <columnExists tableName="course" columnName="description"/>
+        </preConditions>
+        <sql splitStatements="true" stripComments="true">
+            UPDATE course SET description = 'Build a solid foundation in Java syntax, object-oriented programming, collections, and practical problem solving through guided exercises.'
+            WHERE id = 1 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Learn the essentials of React, including components, props, state, events, and building responsive user interfaces for modern web applications.'
+            WHERE id = 2 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Understand relational database basics, write clear SQL queries, filter and join data, and practice working with structured information.'
+            WHERE id = 3 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Create maintainable Spring Boot services with controllers, validation, persistence, and clean REST API design for real application workflows.'
+            WHERE id = 101 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Deepen React skills by designing reusable components, managing component state, handling forms, and organizing frontend code effectively.'
+            WHERE id = 102 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Advance your SQL knowledge with complex joins, grouping, subqueries, indexing concepts, and query patterns used in larger systems.'
+            WHERE id = 103 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Explore software architecture principles, layered design, dependency boundaries, and practical tradeoffs for building scalable applications.'
+            WHERE id = 104 AND (description IS NULL OR description = '');
+
+            UPDATE course SET description = 'Learn the fundamentals of semantic HTML and modern CSS, including layout, responsive design, forms, and accessible page structure.'
+            WHERE id = 105 AND (description IS NULL OR description = '');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

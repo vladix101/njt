@@ -4,14 +4,16 @@ public class CourseDto {
     private Long id;
     private String name;
     private String level;
+    private String description;
 
     public CourseDto() {
     }
 
-    public CourseDto(Long id, String name, String level) {
+    public CourseDto(Long id, String name, String level, String description) {
         this.id = id;
         this.name = name;
         this.level = level;
+        this.description = description;
     }
 
     public Long getId() {
@@ -36,5 +38,13 @@ public class CourseDto {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -10,6 +10,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id_listening_group", "id_candidate"}))
 @Data
@@ -26,6 +28,8 @@ public class LC {
     @JoinColumn(name = "id_candidate")
     private Candidate candidate;
 
+    private LocalDateTime joinedAt;
+
     public LC() {
     }
 
@@ -33,5 +37,6 @@ public class LC {
         this.id = id;
         this.listeningGroup = listeningGroup;
         this.candidate = candidate;
+        this.joinedAt = LocalDateTime.now();
     }
 }

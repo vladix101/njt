@@ -37,6 +37,10 @@ const MyCourses = ({loggedInUser}) => {
         return new Date(date).toLocaleString()
     }
 
+    const confirmationUrl = (groupId) => (
+        `http://localhost:8080/api/candidates/${loggedInUser.userId}/listening-groups/${groupId}/confirmation`
+    )
+
     return (
         <main className="main-content">
             <h1 className="app-title">My Groups</h1>
@@ -49,13 +53,27 @@ const MyCourses = ({loggedInUser}) => {
                 {listeningGroups.map((group) => (
                     <article className="course-card" key={group.id}>
                         <div>
-                            <h2>{group.name}</h2>
+                            <div className="course-card-header">
+                                <h2>{group.name}</h2>
+                                <button className="course-info-button" type="button" aria-label="Course description">
+                                    i
+                                    <span className="course-info-tooltip" role="tooltip">
+                                        {group.courseDescription || "No course description available."}
+                                    </span>
+                                </button>
+                            </div>
                             <div className="course-meta">
                                 <p><span>Start</span>{formatDate(group.startDate)}</p>
                                 <p><span>Course</span>{group.courseName || "No course"}</p>
                                 <p><span>Level</span>{group.courseLevel || "No level"}</p>
                                 <p><span>Subject</span>{group.subjectName || "No subject"}</p>
                             </div>
+                        </div>
+                        <div className="course-actions">
+                            <span className="purchased-label">Purchased</span>
+                            <a className="confirmation-link" href={confirmationUrl(group.id)} download>
+                                View Confirmation
+                            </a>
                         </div>
                     </article>
                 ))}

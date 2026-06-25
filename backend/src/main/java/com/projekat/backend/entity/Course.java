@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import lombok.Data;
 
 @Entity
@@ -16,6 +17,8 @@ public class Course {
     private Long id;
     private String name;
     private String level;
+    @Column(length = 1000)
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")

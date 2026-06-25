@@ -12,4 +12,6 @@
     <include file="db/changelog/changes/005-drop-email-verified-from-user-profile.xml"/>
     <include file="db/changelog/changes/006-add-email-to-user-profile.xml"/>
     <include file="db/changelog/changes/007-fill-seed-user-profile-emails.xml"/>
+    <include file="db/changelog/changes/008-add-course-description.xml"/>
+    <include file="db/changelog/changes/009-add-lc-joined-at.xml"/>
 </databaseChangeLog>
